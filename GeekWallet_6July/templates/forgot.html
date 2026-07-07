@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GeekWallet</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/wallet.png') }}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/public_nav.css') }}"
+    />
+
+    <style>
+      body {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="public-topbar public-topbar-center">
+      <a href="/" class="public-logo">
+        <i class="fa-solid fa-wallet"></i>
+        GeekWallet
+      </a>
+    </nav>
+
+    <!-- CONTAINER -->
+    <div class="flex justify-center px-6 py-16">
+      <!-- CARD -->
+      <div
+        class="bg-white p-10 rounded-2xl shadow-lg border border-gray-200 w-full max-w-md text-center"
+      >
+        <h1 class="text-2xl font-bold text-center mb-3">
+          Forgotten Your Password?
+        </h1>
+
+        <div id="forgotStatusArea" class="text-center mb-4 relative">
+          <p id="forgotDefaultSubtitle" class="text-gray-500 leading-8">
+            There is nothing worry about, we'll send you a message to help you
+            reset your password.
+          </p>
+
+          {% if message %}
+          <div id="forgotMessage" class="message-card {{ message.type }}">
+            <strong>{{ message.title }}</strong>
+            {% if message.detail %}
+            <div>{{ message.detail }}</div>
+            {% endif %}
+          </div>
+          {% endif %} {% if link %}
+          <div id="forgotResetLink" class="forgot-reset-link">
+            <a href="{{ link }}">Click here to reset password</a>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- FORM -->
+        <form method="POST" action="/forgot">
+          <div class="mb-6 text-left relative">
+            <label class="block mb-2"> Email Address </label>
+
+            <!-- email input field -->
+            <input
+              type="text"
+              id="forgotEmail"
+              name="email"
+              value="{{ email if email else '' }}"
+              {%
+              if
+              reset_success
+              %}disabled{%
+              endif
+              %}
+              class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 {% if reset_success %}bg-gray-100 cursor-not-allowed{% endif %}"
+              placeholder="Enter personal or work email address"
+            />
+            <div id="forgotEmailError" class="form-error"></div>
+          </div>
+
+          <!-- BUTTON -->
+          <button
+            type="submit"
+            {%
+            if
+            reset_success
+            %}disabled{%
+            endif
+            %}
+            class="w-full bg-[#10367d] text-white py-2 rounded hover:bg-[#0c2c66] {% if reset_success %}opacity-70 cursor-not-allowed{% endif %}"
+          >
+            Send Reset Link
+          </button>
+        </form>
+
+        <!-- BACK -->
+        <p class="mt-5 text-sm">
+          <a href="/login" class="text-blue-500 hover:text-blue-700 underline">
+            Back to Login
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Validation -->
+    <script>
+      document.querySelector("form").addEventListener("submit", function (e) {
+        const email = document.getElementById("forgotEmail");
+        const error = document.getElementById("forgotEmailError");
+
+        clearForgotError();
+
+        if (email.value.trim() === "") {
+          e.preventDefault();
+          showForgotError("Email is required.");
+          return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+          e.preventDefault();
+          showForgotError("Please enter a valid email address.");
+          return;
+        }
+      });
+
+      function showForgotError(message) {
+        const email = document.getElementById("forgotEmail");
+        const error = document.getElementById("forgotEmailError");
+
+        email.classList.add("input-error");
+        error.innerText = message;
+        error.classList.add("show");
+      }
+
+      function clearForgotError() {
+        const email = document.getElementById("forgotEmail");
+        const error = document.getElementById("forgotEmailError");
+
+        email.classList.remove("input-error");
+        error.innerText = "";
+        error.classList.remove("show");
+      }
+
+      document
+        .getElementById("forgotEmail")
+        .addEventListener("focus", function () {
+          clearForgotError();
+
+          const message = document.getElementById("forgotMessage");
+          const subtitle = document.getElementById("forgotDefaultSubtitle");
+
+          if (message) {
+            message.style.display = "none";
+          }
+
+          if (subtitle) {
+            subtitle.style.display = "block";
+          }
+
+          const resetLink = document.getElementById("forgotResetLink");
+          if (resetLink) {
+            resetLink.style.display = "none";
+          }
+        });
+    </script>
+
+    <!-- show standartd message -->
+    <script>
+      window.addEventListener("load", function () {
+        const message = document.getElementById("forgotMessage");
+        const subtitle = document.getElementById("forgotDefaultSubtitle");
+
+        if (!message) return;
+
+        subtitle.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

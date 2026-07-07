@@ -1,0 +1,201 @@
+{% extends "navbar.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/dashboard.css') }}"
+/>
+
+<!-- DASHBOARD -->
+<div class="dashboard-content">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+
+    <div class="date-bar">
+      <!-- PREVIOUS -->
+      <a href="/dashboard?month={{ prev_month }}&year={{ prev_year }}">
+        <button class="date-btn">◀</button>
+      </a>
+
+      <!-- DATE -->
+      <div class="date-text" id="dateTextBox">
+        <span id="monthDisplay" class="month-display"></span>
+
+        <i class="fa-regular fa-calendar calendar-icon"></i>
+
+        <input
+          type="month"
+          id="monthPicker"
+          value="{{ year }}-{{ '%02d'|format(month) }}"
+        />
+      </div>
+
+      <!-- NEXT -->
+      <a href="/dashboard?month={{ next_month }}&year={{ next_year }}">
+        <button class="date-btn">▶</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- LEFT -->
+    <div class="left-dashboard">
+      <!-- SUMMARY -->
+      <div class="summary-cards">
+        <div class="summary-card income-card">
+          <h3>Total Income</h3>
+          <p class="summary-income">+{{ "{:,}".format(total_income) }} MMK</p>
+        </div>
+
+        <div class="summary-card expense-card">
+          <h3>Total Expense</h3>
+          <p class="summary-expense">-{{ "{:,}".format(total_expense) }} MMK</p>
+        </div>
+
+        <div class="summary-card balance-card">
+          <h3>Total Balance</h3>
+          <p class="summary-balance">{{ "{:,}".format(total_balance) }} MMK</p>
+        </div>
+      </div>
+
+      <!-- TRANSACTION -->
+      <div class="transaction-card">
+        <div class="transaction-header">
+          <h2>Transaction</h2>
+          <a href="/drecords" class="see-more"> See More </a>
+        </div>
+
+        <table>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Note</th>
+            <th>Amount</th>
+          </tr>
+
+          {% for transaction in transactions %}
+
+          <tr>
+            <td>{{ transaction.date.strftime('%d.%m.%Y') }}</td>
+            <td>{{ transaction.category.ctg_name }}</td>
+            <td>{{ transaction.note }}</td>
+            <td
+              class="{% if transaction.category.ctg_type == 'Income' %}income{% else %}expense{% endif %}"
+            >
+              {% if transaction.category.ctg_type == "Income" %} +{{
+              "{:,}".format(transaction.amount) }} MMK {% else %} -{{
+              "{:,}".format(transaction.amount) }} MMK {% endif %}
+            </td>
+          </tr>
+
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="goal-section">
+      {% if dashboard_budgets %} {% for budget in dashboard_budgets %} {% set
+      leftAmount = budget.amount - budget.spent %} {% if budget.amount > 0 %} {%
+      set progressPercentage = (budget.spent / budget.amount * 100)|int %} {%
+      else %} {% set progressPercentage = 0 %} {% endif %} {% if
+      progressPercentage > 100 %} {% set progressWidth = 100 %} {% else %} {%
+      set progressWidth = progressPercentage %} {% endif %}
+
+      <div
+        class="goal-card {% if progressPercentage >= 100 %}border-danger{% elif progressPercentage >=80 %}border-warning{% else %}border-success{% endif %}"
+      >
+        <div class="goal-header">
+          <h2>{{ budget.icon }} {{ budget.category }}</h2>
+          <a href="/dbudget">See More</a>
+        </div>
+
+        {% if budget.note %}
+        <p class="budget-note">{{ budget.note }}</p>
+        {% endif %} {% if leftAmount < 0 %}
+        <h1 class="goal-amount red">
+          {{ "{:,}".format(leftAmount|abs) }} MMK overspent
+        </h1>
+        {% elif progressPercentage >= 80 %}
+        <h1 class="goal-amount orange">
+          {{ "{:,}".format(leftAmount) }} MMK left
+        </h1>
+        {% else %}
+        <h1 class="goal-amount green">
+          {{ "{:,}".format(leftAmount) }} MMK left
+        </h1>
+        {% endif %}
+
+        <p class="goal-total">From {{ "{:,}".format(budget.amount) }} MMK</p>
+
+        <div class="progress-bar">
+          <div
+            class="progress-fill {% if leftAmount < 0 %}red-fill{% elif progressPercentage >= 80 %}orange-fill{% else %}green-fill{% endif %}"
+            style="width: {{ progressWidth }}%;"
+          ></div>
+        </div>
+
+        <div class="goal-date">
+          <span>{{ budget.startDate }}</span>
+          <span>{{ budget.endDate }}</span>
+        </div>
+      </div>
+
+      {% endfor %} {% else %}
+
+      <div class="goal-card">
+        <div class="goal-header">
+          <h2>🎯 Budget Goal</h2>
+          <a href="/dbudget">Create</a>
+        </div>
+
+        <h1 class="goal-amount green">No budget yet</h1>
+
+        <p>Create a budget goal to track your spending.</p>
+
+        <div class="progress-bar">
+          <div class="progress-fill green-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const monthPicker = document.getElementById("monthPicker");
+    const monthDisplay = document.getElementById("monthDisplay");
+
+    function formatMonthRange(value) {
+      const [yearText, monthText] = value.split("-");
+      const year = Number(yearText);
+      const month = Number(monthText);
+
+      const startDate = new Date(year, month - 1, 1);
+      const endDate = new Date(year, month, 0);
+
+      const monthName = startDate.toLocaleString("en-US", {
+        month: "short",
+      });
+
+      const startDay = String(startDate.getDate()).padStart(2, "0");
+      const endDay = String(endDate.getDate()).padStart(2, "0");
+
+      return `${monthName} ${startDay}, ${year} - ${monthName} ${endDay}, ${year}`;
+    }
+
+    monthDisplay.textContent = formatMonthRange(monthPicker.value);
+
+    document
+      .getElementById("dateTextBox")
+      .addEventListener("click", function () {
+        monthPicker.showPicker();
+      });
+
+    monthPicker.addEventListener("change", function () {
+      const [year, month] = this.value.split("-");
+      window.location.href = `/dashboard?month=${month}&year=${year}`;
+    });
+  });
+</script>
+{% endblock %}

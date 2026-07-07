@@ -1,0 +1,28 @@
+Very Important Concept
+
+Flask workflow:
+
+User opens browser
+        ↓
+Flask receives request
+        ↓
+Flask loads HTML from templates
+        ↓
+Browser shows page
+======================================
+Luna added this::
+Browser
+   ↓
+HTML Form
+   ↓
+Flask Route
+   ↓
+SQLAlchemy Model
+   ↓
+MySQL Database
+   ↓
+SQLAlchemy Model
+   ↓
+Flask Route
+   ↓
+HTML Page

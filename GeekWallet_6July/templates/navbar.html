@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>GeekWallet</title>
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/wallet.png') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/navbar.css') }}"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <!-- Menu Text and  hamburget menu-->
+        <div class="sidebar-header">
+          <!-- <span>☰ Menu</span> -->
+          <button id="menuToggle">☰</button>
+          <span class="menu-text">Menu</span>
+        </div>
+
+        <!-- Sidebar MENU LIST -->
+        <ul class="menu">
+          <!-- Sidebar Menu : Dashboard, Record, Budget Goal, Report -->
+          <li class="{% if request.path == '/dashboard' %}active{% endif %}">
+            <a href="/dashboard" class="menu-link">
+              <span class="icon">🏠</span>
+              <span class="text">Dashboard</span>
+            </a>
+          </li>
+          <li class="{% if request.path == '/drecords' %}active{% endif %}">
+            <a href="/drecords" class="menu-link">
+              <span class="icon">📊</span>
+              <span class="text">Records</span>
+            </a>
+          </li>
+          <li class="{% if request.path == '/dbudget' %}active{% endif %}">
+            <a href="/dbudget" class="menu-link">
+              <span class="icon">🎯</span>
+              <span class="text">Budget Goal</span>
+            </a>
+          </li>
+          <li class="{% if request.path == '/dreports' %}active{% endif %}">
+            <a href="/dreports" class="menu-link">
+              <span class="icon">📈</span>
+              <span class="text">Reports</span>
+            </a>
+          </li>
+          <li
+            class="{% if request.path == '/financial_tips' %}active{% endif %}"
+          >
+            <a href="/financial_tips" class="menu-link">
+              <span class="icon">💡</span>
+              <span class="text">Financial Tips</span>
+            </a>
+          </li>
+          <li
+            class="{% if request.path == '/category_list' %}active{% endif %}"
+          >
+            <a href="/category_list" class="menu-link">
+              <span class="icon">📁</span>
+              <span class="text">Category</span>
+            </a>
+          </li>
+
+          <hr class="menu-divider" />
+          <div class="menu-section-title">General</div>
+
+          <!-- Sidebar Menu : Support, About, Budget Goal, Report -->
+          <li class="{% if request.path == '/dsupport' %}active{% endif %}">
+            <a href="/dsupport" class="menu-link">
+              <span class="icon">🆘</span>
+              <span class="text">Support</span>
+            </a>
+          </li>
+          <li class="{% if request.path == '/dabout' %}active{% endif %}">
+            <a href="/dabout" class="menu-link">
+              <span class="icon">👤</span>
+              <span class="text">About Us</span>
+            </a>
+          </li>
+          <li class="{% if request.path == '/setting' %}active{% endif %}">
+            <a href="/setting" class="menu-link">
+              <span class="icon">⚙️</span>
+              <span class="text">Setting</span>
+            </a>
+          </li>
+          <li id="logoutMenu">
+            <span class="icon">🚪</span>
+            <span class="text">Log out</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Topbar MAIN CONTENT -->
+      <div class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+          <!-- Topbar Menu : logo and GeekWallet Text -->
+
+          <a href="{{ url_for('dashboard') }}" class="app-logo">
+            <i class="fa-solid fa-wallet"></i>
+            GeekWallet
+          </a>
+
+          <!-- Topbar Menu : Record Transaction Button -->
+          <button id="openModal" class="record-btn">Record Transaction</button>
+
+          <!-- Topbar Menu : Profile icon btn-->
+          <div class="profile" id="profileBtn">
+            <img src="{{ url_for('static', filename='images/profile.png') }}" />
+          </div>
+
+          <!-- Topbar Menu : pop up after clicked the profile icon btn -->
+          <div id="profileMenu" class="profile-menu">
+            <div class="profile-big">👤</div>
+            <h3>{{ user.name }}</h3>
+            <p>{{ user.email }}</p>
+            <a
+              href="/setting"
+              class="manage-btn"
+              style="text-decoration: underline"
+            >
+              Manage your account
+            </a>
+            <p
+              id="profileLogout"
+              class="profile-logout"
+              style="text-decoration: underline"
+            >
+              Log out
+            </p>
+          </div>
+        </div>
+
+        <!-- REPORT / PAGE CONTENT HERE -->
+        {% block content %} {% endblock %}
+
+        <!-- RECORD MODAL -->
+        <div id="recordModal" class="modal">
+          <div class="modal-content add-record-modal gw-standard-modal">
+            <button type="button" id="closeModal" class="close-modal">
+              &times;
+            </button>
+
+            <!-- Modal for "ADD RECORD" -->
+            <h2 id="recordModalTitle">Add Record</h2>
+            <form id="recordForm" action="/add_record" method="POST" novalidate>
+              <input type="hidden" id="editTransId" name="trans_id" />
+              <input type="hidden" id="nextUrl" name="next_url" value="" />
+
+              <div class="type-toggle">
+                <button
+                  type="button"
+                  id="incomeBtn"
+                  onclick="selectType('income')"
+                  class="inactive-btn"
+                >
+                  Income
+                </button>
+                <button
+                  type="button"
+                  id="expenseBtn"
+                  onclick="selectType('expense')"
+                  class="active-btn"
+                >
+                  Expense
+                </button>
+              </div>
+
+              <label>Choose Category</label>
+              <select id="categorySelect" name="ctg_id">
+                <option value="">Select Category</option>
+                {% for category in categories %}
+                <option
+                  value="{{ category.ctg_id }}"
+                  data-type="{{ category.ctg_type }}"
+                >
+                  {{ category.ctg_name }}
+                </option>
+                {% endfor %}
+              </select>
+              <div class="field-error" id="categoryError"></div>
+
+              <label>Note</label>
+              <input type="text" id="noteBox" name="note" />
+              <div class="field-error" id="noteError"></div>
+
+              <label>Enter Amount</label>
+              <div class="amount-wrapper">
+                <input
+                  id="amountBox"
+                  name="amount"
+                  type="text"
+                  inputmode="numeric"
+                  class="expense-bg"
+                />
+                <span class="currency">MMK</span>
+              </div>
+              <div class="field-error" id="amountError"></div>
+
+              <label>Date</label>
+              <input
+                type="date"
+                id="dateBox"
+                name="date"
+                value="{{ today_date }}"
+              />
+
+              <div id="budgetRow" class="switch-row">
+                <span>Exclude From Budget</span>
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="excludeBudget"
+                    name="exclude_budget"
+                  />
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="recurring-layout">
+                <div class="recurring-left">
+                  <div class="switch-row">
+                    <span>Recurring&nbsp&nbsp&nbsp</span>
+                    <label class="switch">
+                      <input
+                        type="checkbox"
+                        id="recurringToggle"
+                        name="be_recurring"
+                      />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div id="cycleRow" class="cycle-row hidden">
+                    <span>Set Recurring Cycle <b>></b></span>
+                  </div>
+                </div>
+
+                <div id="recurringOptions" class="recurring-box hidden">
+                  <label>Frequency</label>
+
+                  <div class="frequency-buttons">
+                    <button
+                      type="button"
+                      onclick="selectFrequency('Daily', this)"
+                    >
+                      Daily
+                    </button>
+                    <button
+                      type="button"
+                      onclick="selectFrequency('Weekly', this)"
+                    >
+                      Weekly
+                    </button>
+                    <button
+                      type="button"
+                      onclick="selectFrequency('Monthly', this)"
+                    >
+                      Monthly
+                    </button>
+                  </div>
+
+                  <input type="hidden" id="frequencyInput" name="frequency" />
+                  <div class="field-error" id="frequencyError"></div>
+
+                  <label>End Date</label>
+                  <input type="date" id="recurringEndDate" name="end_date" />
+                  <div class="field-error" id="endDateError"></div>
+                </div>
+              </div>
+
+              <div class="modal-buttons">
+                <button type="button" id="cancelBtn">Cancel</button>
+                <button type="submit">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Logout MODAL -->
+        <div id="logoutModal" class="logout-modal">
+          <div class="logout-box">
+            <h2 class="logout-title">
+              <img
+                src="{{ url_for('static', filename='images/warning.png') }}"
+                alt="Warning"
+                class="logout-warning-icon"
+              />
+              Log out?
+            </h2>
+
+            <p>
+              Are you sure you want to log out of the system?<br />
+              Any unsaved changes may be lost.
+            </p>
+
+            <div class="logout-buttons">
+              <button id="cancelLogout" class="logout-cancel">Cancel</button>
+
+              <a href="/logout">
+                <button class="logout-confirm">Log out</button>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            /* SIDEBAR */
+
+            const toggle = document.getElementById("menuToggle");
+
+            const sidebar = document.querySelector(".sidebar");
+
+            toggle.addEventListener("click", function () {
+              sidebar.classList.toggle("collapsed");
+            });
+
+            /* MODAL */
+
+            const openModal = document.getElementById("openModal");
+
+            const closeModal = document.getElementById("closeModal");
+
+            const cancelBtn = document.getElementById("cancelBtn");
+
+            const modal = document.getElementById("recordModal");
+
+            openModal.addEventListener("click", function () {
+              resetAddRecordForm();
+              modal.style.display = "flex";
+            });
+
+            closeModal.addEventListener("click", function () {
+              modal.style.display = "none";
+            });
+
+            cancelBtn.addEventListener("click", function () {
+              clearAllRecordErrors();
+              modal.style.display = "none";
+            });
+
+            /* LOGOUT MODAL */
+
+            const logoutMenu = document.getElementById("logoutMenu");
+            const logoutModal = document.getElementById("logoutModal");
+            const cancelLogout = document.getElementById("cancelLogout");
+
+            logoutMenu.addEventListener("click", function () {
+              logoutModal.style.display = "flex";
+            });
+
+            cancelLogout.addEventListener("click", function () {
+              logoutModal.style.display = "none";
+            });
+
+            /* PROFILE MENU */
+
+            const profileBtn = document.getElementById("profileBtn");
+
+            const profileMenu = document.getElementById("profileMenu");
+
+            const profileLogout = document.getElementById("profileLogout");
+
+            profileBtn.addEventListener("click", function () {
+              if (profileMenu.style.display === "block") {
+                profileMenu.style.display = "none";
+              } else {
+                profileMenu.style.display = "block";
+              }
+            });
+
+            profileLogout.addEventListener("click", function () {
+              profileMenu.style.display = "none";
+
+              logoutModal.style.display = "flex";
+            });
+
+            /* RECURRING */
+
+            const recurringToggle = document.getElementById("recurringToggle");
+
+            const recurringOptions =
+              document.getElementById("recurringOptions");
+
+            const cycleRow = document.getElementById("cycleRow");
+
+            recurringToggle.addEventListener("change", function () {
+              const recurringEndDate =
+                recurringOptions.querySelector('input[type="date"]');
+
+              if (this.checked) {
+                recurringOptions.classList.remove("hidden");
+                cycleRow.classList.remove("hidden");
+              } else {
+                recurringOptions.classList.add("hidden");
+                cycleRow.classList.add("hidden");
+
+                recurringEndDate.required = false;
+                recurringEndDate.value = "";
+                document.getElementById("frequencyInput").value = "";
+
+                document
+                  .querySelectorAll(".frequency-buttons button")
+                  .forEach((btn) => btn.classList.remove("selected-frequency"));
+              }
+            });
+
+            /* DEFAULT */
+
+            selectType("expense");
+          });
+
+          /* TYPE SWITCH */
+
+          function selectType(type) {
+            clearAllRecordErrors();
+            const incomeBtn = document.getElementById("incomeBtn");
+            const expenseBtn = document.getElementById("expenseBtn");
+
+            const amountBox = document.getElementById("amountBox");
+            const noteBox = document.getElementById("noteBox");
+            const dateBox = document.getElementById("dateBox");
+            const excludeBudget = document.getElementById("excludeBudget");
+            const budgetRow = document.getElementById("budgetRow");
+            const categorySelect = document.getElementById("categorySelect");
+
+            const options = categorySelect.querySelectorAll("option");
+            const recurringToggle = document.getElementById("recurringToggle");
+            const recurringOptions =
+              document.getElementById("recurringOptions");
+            const cycleRow = document.getElementById("cycleRow");
+
+            /* Reset recurring every time user changes type */
+            recurringToggle.checked = false;
+            recurringOptions.classList.add("hidden");
+            cycleRow.classList.add("hidden");
+
+            /* Reset frequency */
+            document.getElementById("frequencyInput").value = "";
+
+            document
+              .querySelectorAll(".frequency-buttons button")
+              .forEach((btn) => {
+                btn.classList.remove("selected-frequency");
+              });
+
+            /* Reset end date */
+            recurringOptions.querySelector('input[type="date"]').value = "";
+
+            if (type === "income") {
+              incomeBtn.classList.remove("inactive-btn");
+              incomeBtn.classList.add("active-btn");
+
+              expenseBtn.classList.remove("active-btn");
+              expenseBtn.classList.add("inactive-btn");
+
+              amountBox.classList.remove("expense-bg");
+              amountBox.classList.add("income-bg");
+
+              budgetRow.style.visibility = "hidden";
+            } else {
+              expenseBtn.classList.remove("inactive-btn");
+              expenseBtn.classList.add("active-btn");
+
+              incomeBtn.classList.remove("active-btn");
+              incomeBtn.classList.add("inactive-btn");
+
+              amountBox.classList.remove("income-bg");
+              amountBox.classList.add("expense-bg");
+
+              budgetRow.style.visibility = "visible";
+              document.getElementById("excludeBudget").checked = false;
+            }
+
+            /* Reset user-entered fields when switching Income / Expense */
+            noteBox.value = "";
+            amountBox.value = "";
+            dateBox.value = new Date().toISOString().split("T")[0];
+            excludeBudget.checked = false;
+
+            /* CATEGORY FILTER */
+            categorySelect.value = "";
+            options.forEach((option) => {
+              const optionType = option.getAttribute("data-type");
+
+              if (!optionType) return;
+
+              if (optionType === "Income" && type === "income") {
+                option.style.display = "block";
+              } else if (optionType === "Expense" && type === "expense") {
+                option.style.display = "block";
+              } else {
+                option.style.display = "none";
+              }
+            });
+          }
+
+          function selectFrequency(value, button) {
+            document.getElementById("frequencyInput").value = value;
+
+            document
+              .querySelectorAll(".frequency-buttons button")
+              .forEach((btn) => {
+                btn.classList.remove("selected-frequency");
+              });
+
+            button.classList.add("selected-frequency");
+          }
+
+          function resetAddRecordForm() {
+            document.getElementById("recordModalTitle").innerText =
+              "Add Record";
+            document.getElementById("recordForm").action = "/add_record";
+            document.getElementById("editTransId").value = "";
+            document.getElementById("nextUrl").value =
+              window.location.pathname + window.location.search;
+            setModalMode("add");
+
+            document.getElementById("categorySelect").value = "";
+            document.getElementById("noteBox").value = "";
+            document.getElementById("amountBox").value = "";
+
+            document.getElementById("dateBox").value = new Date()
+              .toISOString()
+              .split("T")[0];
+
+            document.getElementById("excludeBudget").checked = false;
+            document.getElementById("excludeBudget").disabled = false;
+
+            document.getElementById("recurringToggle").checked = false;
+            document.getElementById("recurringOptions").classList.add("hidden");
+            document.getElementById("cycleRow").classList.add("hidden");
+
+            document.getElementById("frequencyInput").value = "";
+
+            document
+              .querySelectorAll(".frequency-buttons button")
+              .forEach((btn) => {
+                btn.classList.remove("selected-frequency");
+              });
+
+            const recurringEndDate = document.querySelector(
+              '#recurringOptions input[type="date"]',
+            );
+
+            if (recurringEndDate) {
+              recurringEndDate.value = "";
+            }
+
+            selectType("expense");
+            clearAllRecordErrors();
+          }
+
+          function setModalMode(mode) {
+            const isAdd = mode === "add";
+            const isEditRecord = mode === "edit";
+            const isEditRecurring = mode === "recurring";
+
+            const dateBox = document.getElementById("dateBox");
+            const excludeBudget = document.getElementById("excludeBudget");
+            const recurringToggle = document.getElementById("recurringToggle");
+            const frequencyButtons = document.querySelectorAll(
+              ".frequency-buttons button",
+            );
+            const recurringEndDate = document.querySelector(
+              '#recurringOptions input[type="date"]',
+            );
+
+            document.getElementById("incomeBtn").disabled = !isAdd;
+            document.getElementById("expenseBtn").disabled = !isAdd;
+
+            document.getElementById("categorySelect").disabled = false;
+            document.getElementById("amountBox").readOnly = false;
+            document.getElementById("noteBox").readOnly = false;
+
+            dateBox.readOnly = !isAdd;
+            dateBox.style.pointerEvents = isAdd ? "auto" : "none";
+            dateBox.style.backgroundColor = isAdd ? "white" : "#eeeeee";
+            dateBox.style.cursor = isAdd ? "text" : "not-allowed";
+
+            excludeBudget.disabled = !isAdd;
+            excludeBudget.parentElement.style.opacity = isAdd ? "1" : "0.55";
+
+            recurringToggle.disabled = isEditRecord;
+            recurringToggle.parentElement.style.opacity = isEditRecord
+              ? "0.55"
+              : "1";
+
+            frequencyButtons.forEach((btn) => {
+              btn.disabled = isEditRecord;
+              btn.style.opacity = isEditRecord ? "0.55" : "1";
+              btn.style.cursor = isEditRecord ? "not-allowed" : "pointer";
+            });
+
+            if (recurringEndDate) {
+              recurringEndDate.readOnly = isEditRecord;
+              recurringEndDate.style.pointerEvents = isEditRecord
+                ? "none"
+                : "auto";
+              recurringEndDate.style.backgroundColor = isEditRecord
+                ? "#eeeeee"
+                : "white";
+              recurringEndDate.style.cursor = isEditRecord
+                ? "not-allowed"
+                : "text";
+            }
+          }
+
+          function openEditModal(
+            transId,
+            ctgId,
+            amount,
+            date,
+            note,
+            ctgType,
+            excludeBudget,
+            beRecurring,
+            frequency,
+            endDate,
+            mode = "record",
+            recurId = "",
+          ) {
+            resetAddRecordForm();
+
+            const isRecurringMode = mode === "recurring";
+
+            document.getElementById("recordModalTitle").innerText =
+              isRecurringMode ? "Edit Recurring" : "Edit Record";
+
+            document.getElementById("recordForm").action = isRecurringMode
+              ? "/edit_recurring"
+              : "/edit_record";
+
+            document.getElementById("editTransId").value = transId;
+            document.getElementById("nextUrl").value =
+              window.location.pathname + window.location.search;
+
+            let editRecurInput = document.getElementById("sharedEditRecurId");
+
+            if (!editRecurInput) {
+              editRecurInput = document.createElement("input");
+              editRecurInput.type = "hidden";
+              editRecurInput.id = "sharedEditRecurId";
+              editRecurInput.name = "recur_id";
+              document.getElementById("recordForm").appendChild(editRecurInput);
+            }
+
+            editRecurInput.value = recurId;
+
+            if (ctgType === "Income") {
+              selectType("income");
+            } else {
+              selectType("expense");
+            }
+
+            document.getElementById("categorySelect").value = ctgId;
+            document.getElementById("amountBox").value = amount;
+            document.getElementById("dateBox").value = date;
+            document.getElementById("noteBox").value = note;
+
+            document.getElementById("excludeBudget").checked =
+              excludeBudget === "1";
+
+            const isRecurring = beRecurring === "1";
+            document.getElementById("recurringToggle").checked = isRecurring;
+
+            if (isRecurring) {
+              document
+                .getElementById("recurringOptions")
+                .classList.remove("hidden");
+              document.getElementById("cycleRow").classList.remove("hidden");
+
+              if (frequency) {
+                document.getElementById("frequencyInput").value = frequency;
+
+                document
+                  .querySelectorAll(".frequency-buttons button")
+                  .forEach((btn) => {
+                    btn.classList.remove("selected-frequency");
+
+                    if (btn.textContent.trim() === frequency) {
+                      btn.classList.add("selected-frequency");
+                    }
+                  });
+              }
+
+              const recurringEndDate = document.querySelector(
+                '#recurringOptions input[type="date"]',
+              );
+
+              if (recurringEndDate && endDate) {
+                recurringEndDate.value = endDate;
+              }
+            } else {
+              document
+                .getElementById("recurringOptions")
+                .classList.add("hidden");
+              document.getElementById("cycleRow").classList.add("hidden");
+            }
+
+            if (isRecurringMode) {
+              setModalMode("recurring");
+            } else {
+              setModalMode("edit");
+            }
+
+            document.getElementById("recordModal").style.display = "flex";
+          }
+
+          /* ===========================
+              Form Validation
+          =========================== */
+          function showFieldError(inputId, errorId, message) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+
+            if (input) input.classList.add("input-error");
+            if (error) {
+              error.innerText = message;
+              error.classList.add("show");
+            }
+          }
+
+          function clearFieldError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+
+            if (input) input.classList.remove("input-error");
+            if (error) {
+              error.innerText = "";
+              error.classList.remove("show");
+            }
+          }
+
+          function clearAllRecordErrors() {
+            clearFieldError("categorySelect", "categoryError");
+            clearFieldError("noteBox", "noteError");
+            clearFieldError("amountBox", "amountError");
+            clearFieldError("frequencyInput", "frequencyError");
+            clearFieldError("recurringEndDate", "endDateError");
+          }
+
+          document
+            .getElementById("categorySelect")
+            .addEventListener("change", function () {
+              clearFieldError("categorySelect", "categoryError");
+            });
+
+          document
+            .getElementById("amountBox")
+            .addEventListener("input", function () {
+              clearAllRecordErrors();
+            });
+
+          const noteBox = document.getElementById("noteBox");
+
+          noteBox.addEventListener("input", function () {
+            clearFieldError("noteBox", "noteError");
+
+            if (this.value.length > 20) {
+              showFieldError(
+                "noteBox",
+                "noteError",
+                "Note can be up to 20 characters only.",
+              );
+            }
+          });
+
+          document
+            .querySelectorAll(".frequency-buttons button")
+            .forEach((btn) => {
+              btn.addEventListener("click", function () {
+                clearFieldError("frequencyInput", "frequencyError");
+              });
+            });
+
+          document
+            .getElementById("recurringEndDate")
+            .addEventListener("change", function () {
+              clearFieldError("recurringEndDate", "endDateError");
+            });
+
+          document
+            .getElementById("recordForm")
+            .addEventListener("submit", function (e) {
+              clearAllRecordErrors();
+
+              const category = document.getElementById("categorySelect");
+              const note = document.getElementById("noteBox");
+              const amount = document.getElementById("amountBox");
+              const isRecurring =
+                document.getElementById("recurringToggle").checked;
+              const frequency = document.getElementById("frequencyInput");
+              const startDate = document.getElementById("dateBox");
+              const endDate = document.getElementById("recurringEndDate");
+
+              if (!category.value) {
+                e.preventDefault();
+                showFieldError(
+                  "categorySelect",
+                  "categoryError",
+                  "Please select a category",
+                );
+                category.focus();
+                return;
+              }
+
+              if (note.value.length > 20) {
+                e.preventDefault();
+                showFieldError(
+                  "noteBox",
+                  "noteError",
+                  "Note can be up to 20 characters only.",
+                );
+                note.focus();
+                return;
+              }
+
+              const amountValue = Number(amount.value);
+              if (!amount.value.trim()) {
+                e.preventDefault();
+                showFieldError(
+                  "amountBox",
+                  "amountError",
+                  "Amount is required.",
+                );
+                amount.focus();
+                return;
+              }
+
+              if (isNaN(amountValue)) {
+                e.preventDefault();
+                showFieldError(
+                  "amountBox",
+                  "amountError",
+                  "Please enter number only.",
+                );
+                amount.focus();
+                return;
+              }
+
+              if (amountValue < 1) {
+                e.preventDefault();
+                showFieldError(
+                  "amountBox",
+                  "amountError",
+                  "Value must be greater than or equal to 1.",
+                );
+                amount.focus();
+                return;
+              }
+
+              if (isRecurring && !frequency.value) {
+                e.preventDefault();
+                showFieldError(
+                  "frequencyInput",
+                  "frequencyError",
+                  "Please select frequency",
+                );
+                return;
+              }
+
+              if (isRecurring && !endDate.value) {
+                e.preventDefault();
+                showFieldError(
+                  "recurringEndDate",
+                  "endDateError",
+                  "Please select end date",
+                );
+                endDate.focus();
+                return;
+              }
+
+              if (isRecurring && endDate.value < startDate.value) {
+                e.preventDefault();
+                showFieldError(
+                  "recurringEndDate",
+                  "endDateError",
+                  "End date cannot be earlier",
+                );
+                endDate.focus();
+                return;
+              }
+            });
+        </script>
+      </div>
+      <!-- End Topbar MAIN CONTENT -->
+    </div>
+    <!-- End the whole container -->
+  </body>
+</html>

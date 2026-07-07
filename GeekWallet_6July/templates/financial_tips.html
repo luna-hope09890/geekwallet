@@ -1,0 +1,372 @@
+{% extends "navbar.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/financial_tips.css') }}"
+/>
+
+<div class="tips-container">
+  <h1 class="tips-heading">Financial Tips 💡</h1>
+
+  <div class="accordion-group">
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">💡</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              The 50/30/20 Rule <span class="divider">|</span>
+              <span class="tip-category">Budgeting</span>
+            </h3>
+            <p class="tip-subtitle">
+              A simple method to balance spending, needs, and savings.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          The 50/30/20 rule is a popular budgeting method that helps people
+          manage money more effectively. It divides income into three
+          categories:
+        </p>
+        <ul>
+          <li>
+            <strong>50% for Needs</strong> — essential expenses such as food,
+            transportation, education, bills, and healthcare.
+          </li>
+          <li>
+            <strong>30% for Wants</strong> — shopping, hobbies, entertainment,
+            dining out, and non-essential spending.
+          </li>
+          <li>
+            <strong>20% for Savings</strong> — emergency funds, future goals,
+            investments, or personal savings.
+          </li>
+        </ul>
+        <p>
+          This method helps you maintain a healthier balance between spending
+          and saving without making budgeting too complicated. It is especially
+          helpful for beginners who want a simple and realistic financial plan.
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">🐷</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              Emergency Fund 101 <span class="divider">|</span>
+              <span class="tip-category">Saving</span>
+            </h3>
+            <p class="tip-subtitle">
+              Why emergency savings are important for unexpected situations.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          Unexpected expenses can happen at any time, including medical
+          emergencies, transportation issues, family needs, or device repairs.
+          An emergency fund helps reduce financial stress during difficult
+          situations.
+        </p>
+        <p>
+          Financial experts often recommend saving enough money to cover at
+          least 3–6 months of essential living expenses whenever possible.
+          However, building an emergency fund takes time, and even small regular
+          savings can make a difference.
+        </p>
+        <p><strong>Benefits of an emergency fund:</strong></p>
+        <ul style="margin: 10px 0 15px 20px; padding: 0; list-style-type: disc">
+          <li style="margin-bottom: 6px">
+            <strong>Reduces financial anxiety</strong> — Keeps you calm when
+            surprises pop up.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Helps avoid unnecessary debt</strong> — Stops you from
+            relying on credit cards.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Provides financial security</strong> — Acts as an invisible
+            insurance layer.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Supports better financial stability</strong> — Protects
+            long-term budget projections.
+          </li>
+        </ul>
+        <p><em>Starting small is better than not saving at all.</em></p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">🎓</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              Student Budgeting Tips <span class="divider">|</span>
+              <span class="tip-category">Student Finance</span>
+            </h3>
+            <p class="tip-subtitle">
+              Simple money habits every student should learn early.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          Managing money as a student can be difficult, especially with limited
+          income and educational expenses. Building good financial habits early
+          can reduce stress and improve future financial stability.
+        </p>
+
+        <p><strong>Helpful student finance habits:</strong></p>
+        <ul style="padding-left: 20px; margin: 10px 0; list-style-type: disc">
+          <li style="margin-bottom: 8px">
+            <strong>Track daily spending regularly</strong> — Keeps you aware of
+            hidden dynamic costs.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Prioritize needs before wants</strong> — Ensures essentials
+            like textbooks and rent come first.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Avoid impulse purchases</strong> — Saves your hard-earned
+            funds for true goals.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Set realistic saving goals</strong> — Builds healthy
+            wealth-building habits early.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Create a simple monthly budget</strong> — Organizes incoming
+            cash flows effectively.
+          </li>
+        </ul>
+
+        <p style="margin-top: 15px">
+          Even small financial habits developed during student life can create
+          long-term benefits in adulthood.
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">📅</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              Create a Simple Budget <span class="divider">|</span>
+              <span class="tip-category">Beginner Budgeting</span>
+            </h3>
+            <p class="tip-subtitle">
+              A simple budget helps control spending and reduce stress.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          Creating a budget does not need to be complicated. A simple monthly
+          plan for income, expenses, and savings can help users manage money
+          more effectively.
+        </p>
+
+        <p><strong>Benefits of budgeting:</strong></p>
+        <ul style="padding-left: 20px; margin: 10px 0; list-style-type: disc">
+          <li style="margin-bottom: 8px">
+            <strong>Better spending control</strong> — Keeps tracking clear and
+            organized.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Easier financial planning</strong> — Prepares you for future
+            dynamic expenses.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Reduced overspending</strong> — Sets strict boundary points
+            on luxury choices.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Improved saving habits</strong> — Helps automate wealth
+            building effortlessly.
+          </li>
+        </ul>
+
+        <p style="margin-top: 15px">
+          Even basic budgeting can create healthier financial habits over time.
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">📊</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              Why Budgeting Matters <span class="divider">|</span>
+              <span class="tip-category">Financial Awareness</span>
+            </h3>
+            <p class="tip-subtitle">
+              Budgeting helps improve financial control and decision-making.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          Budgeting is not about restricting spending — it is about
+          understanding and managing money more effectively. A good budget helps
+          users prepare for future expenses while reducing financial stress.
+        </p>
+
+        <p><strong>Benefits of budgeting:</strong></p>
+        <ul style="padding-left: 20px; margin: 10px 0; list-style-type: disc">
+          <li style="margin-bottom: 8px">
+            <strong>Better control over finances</strong> — Know exactly where
+            your wealth moves.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Easier financial planning</strong> — Anticipate major
+            upcoming cash outlays safely.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Reduced overspending</strong> — Highlights micro-transaction
+            leaks automatically.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Improved saving habits</strong> — Ensures you deposit money
+            before spending the rest.
+          </li>
+          <li style="margin-bottom: 8px">
+            <strong>Greater financial confidence</strong> — Takes the fear out
+            of checking your bank balances.
+          </li>
+        </ul>
+
+        <p style="margin-top: 15px">
+          A budget provides a clearer picture of financial health and supports
+          smarter financial decisions.
+        </p>
+      </div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-header">
+        <div class="header-left">
+          <div class="tip-icon-fallback">🛒</div>
+          <div class="header-text">
+            <h3 class="tip-title">
+              Needs vs Wants <span class="divider">|</span>
+              <span class="tip-category">Smart Budgeting</span>
+            </h3>
+            <p class="tip-subtitle">
+              Learn the difference between essential and non-essential spending.
+            </p>
+          </div>
+        </div>
+        <button class="toggle-btn">+</button>
+      </div>
+      <div class="tip-content">
+        <p>
+          Understanding the difference between needs and wants is an important
+          financial skill. Needs are essential expenses required for daily
+          living, while wants are non-essential items or activities that improve
+          enjoyment but are not necessary.
+        </p>
+
+        <p><strong>Examples of needs:</strong></p>
+        <ul
+          style="
+            padding-left: 20px;
+            margin: 10px 0 15px 20px;
+            list-style-type: disc;
+          "
+        >
+          <li style="margin-bottom: 6px">
+            <strong>Food</strong> — Basic groceries and core survival nutrition.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Transportation</strong> — Getting to work, school, or
+            necessary destinations.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Education</strong> — Core tools, tuition, and basic training
+            assets.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Bills</strong> — Utilities, rent, and legal commitments.
+          </li>
+        </ul>
+
+        <p><strong>Examples of wants:</strong></p>
+        <ul
+          style="
+            padding-left: 20px;
+            margin: 10px 0 15px 20px;
+            list-style-type: disc;
+          "
+        >
+          <li style="margin-bottom: 6px">
+            <strong>Entertainment</strong> — Video games, movie tickets, and
+            media passes.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Shopping</strong> — Upgrading functional clothing to
+            high-end design trends.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Luxury items</strong> — Non-essential gadgets or expensive
+            leisure accessories.
+          </li>
+          <li style="margin-bottom: 6px">
+            <strong>Dining out</strong> — Restaurants, delivery options, and
+            luxury social food orders.
+          </li>
+        </ul>
+
+        <p style="margin-top: 15px">
+          Recognizing this difference can help users make better spending
+          decisions and improve budgeting habits.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const headers = document.querySelectorAll(".tip-header");
+
+    headers.forEach(function (header) {
+      header.addEventListener("click", function () {
+        const content = header.nextElementSibling;
+        const button = header.querySelector(".toggle-btn");
+        const card = header.parentElement;
+
+        // Toggle visibility classes cleanly
+        content.classList.toggle("show");
+        card.classList.toggle("active-card");
+
+        // Swap out icons
+        if (content.classList.contains("show")) {
+          button.textContent = "−";
+        } else {
+          button.textContent = "+";
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

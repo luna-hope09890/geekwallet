@@ -1,0 +1,216 @@
+{% extends "navbar.html" %} {% block content %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/common_pages.css') }}"
+/>
+
+<!-- biggest card -->
+<div class="about-container">
+  <!-- About upper section -->
+  <section class="pt-[45px] pb-20">
+    <!-- About Card -->
+    <div
+      class="page-content bg-white rounded-3xl shadow-md px-8 py-10 w-full text-center"
+    >
+      <!-- Title -->
+      <div class="wallet-icon">
+        <i class="fa-solid fa-wallet"></i>
+      </div>
+      <h1 class="about-title">GeekWallet</h1>
+
+      <!-- paragraph -->
+      <div class="space-y-10 text-center text-gray-700 leading-9 text-lg">
+        <p class="text-gray-700 leading-9 text-lg text-left">
+          We are a team of eleven students from the Diploma of Computer Science
+          (Batch 2) at
+          <a
+            href="https://sumlearn.springuniversitymm.com/"
+            target="_blank"
+            class="text-blue-600 underline"
+          >
+            Spring University Myanmar </a
+          >. This system was developed as our final project through
+          collaboration, learning, creativity, and strong team spirit.
+          Throughout this journey, we supported one another, shared ideas,
+          solved challenges together, and turned our vision into reality.
+        </p>
+        <p class="text-gray-700 leading-9 text-lg text-left">
+          Our goal is to create a simple and accessible financial management
+          system that helps users build healthier spending, budgeting, and
+          saving habits in their daily lives. Building this project was not
+          easy, but our friendship, dedication, and teamwork helped us move
+          forward together as one team with one dream. This project reflects not
+          only our technical learning journey but also the trust, communication,
+          and collaboration we developed throughout the process. We carefully
+          designed this system with a strong focus on usability, simplicity, and
+          user-friendly experience so that users can manage their personal
+          finances more easily and confidently.
+        </p>
+        <p class="text-gray-700 leading-9 text-lg text-left">
+          As students, this project gave us valuable real-world experience in
+          system design, problem-solving, teamwork, and software development. It
+          allowed us to grow together while applying the knowledge and skills we
+          learned during our studies. We hope this project can encourage better
+          financial habits and become a helpful expense tracking solution for
+          the Myanmar community in the future.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- About upper section End -->
+
+  <!-- Team Section -->
+  <section class="py-20 bg-gray-100">
+    <div class="page-content">
+      <!-- Title -->
+      <div class="text-center mb-14">
+        <h2 class="text-4xl font-bold text-[#10367d]">Our Team Members</h2>
+      </div>
+
+      <!-- Team Leader -->
+      <div class="flex justify-center mb-6">
+        <div
+          class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-[190px]"
+        >
+          <img
+            src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+            class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+          />
+          <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-203</h3>
+          <p class="text-sm text-gray-500">Team Leader</p>
+        </div>
+      </div>
+
+      <!-- Team Grid -->
+      <div>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-6"
+        >
+          <!-- Member 2 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-209</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 3 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-214</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 4 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-222</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 5  -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-226</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 6 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-230</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 7 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-235</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 8 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-244</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 9 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-250</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 10 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-255</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+
+          <!-- Member 11 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[200px] justify-self-center lg:col-start-5"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-257</h3>
+            <p class="text-sm text-gray-500">Role</p>
+          </div>
+        </div>
+      </div>
+      <!-- Team Grid End -->
+    </div>
+  </section>
+</div>
+<!-- biggest card end -->
+
+{% endblock %}
