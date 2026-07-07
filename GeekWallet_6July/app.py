@@ -1274,7 +1274,7 @@ def delete_budget(budget_id):
 
 @app.route("/")
 def landing():
-    return render_template("landing.html")
+    return render_template("index.html")
 
 
 @app.route("/about")
