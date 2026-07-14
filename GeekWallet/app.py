@@ -35,6 +35,11 @@ app.secret_key = os.environ.get(
     "expense_tracker_secret",
 )
 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL",
+    "mysql+pymysql://root:Test%401234@localhost/geek_db",
+)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # db = SQLAlchemy(app)
 db.init_app(app)
