@@ -9,7 +9,14 @@ from datetime import datetime, timedelta, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 
-from models import db, User, Category, Transaction, Recurring, Budget
+from GeekWallet.models import (
+    db,
+    User,
+    Category,
+    Transaction,
+    Recurring,
+    Budget,
+)
 
 import re
 import calendar
