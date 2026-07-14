@@ -1,14 +1,14 @@
 {
   "builds": [
     {
-      "src": "GeekWallet_6july/app.py",
+      "src": "GeekWallet_6July/app.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "destination": "GeekWallet_6july/app.py"
+      "destination": "GeekWallet_6July/app.py"
     }
   ]
 }
