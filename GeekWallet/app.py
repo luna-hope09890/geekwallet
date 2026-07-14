@@ -35,22 +35,6 @@ app.secret_key = os.environ.get(
     "expense_tracker_secret",
 )
 
-#connection = pymysql.connect(
-#    host="localhost", user="root", password="", port=
-#)
-
-#cursor = connection.cursor()
-#cursor.execute("""
-#CREATE DATABASE IF NOT EXISTS geek_db
-#""")
-
-#connection.commit()
-#connection.close()
-
-#app.config["SQLALCHEMY_DATABASE_URI"] = (
-#    "mysql+pymysql://root:@localhost/geek_db"
-#)
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # db = SQLAlchemy(app)
 db.init_app(app)
