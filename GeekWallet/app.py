@@ -100,6 +100,10 @@ def insert_default_categories():
             db.session.add(category)
     db.session.commit()
 
+# TEMPORARY: Create the online database tables and default categories
+with app.app_context():
+    db.create_all()
+    insert_default_categories()
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
