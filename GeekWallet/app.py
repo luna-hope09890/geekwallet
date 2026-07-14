@@ -22,7 +22,12 @@ import re
 import calendar
 import pymysql
 
-app = Flask(__name__)
+#app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+)
 app.secret_key = "expense_tracker_secret"
 
 # Bro Sai's connection - password="", port=3307
