@@ -8,7 +8,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "destination": "GeekWallet/app.py"
+      "dest": "GeekWallet/app.py"
     }
   ]
 }
