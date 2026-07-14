@@ -1321,6 +1321,7 @@ def page_not_found(error):
 @app.errorhandler(SQLAlchemyError)
 def handle_database_error(error):
     db.session.rollback()
+    app.logger.exception("Database error occurred: %s", error)
     return render_template("connection_error.html"), 500
 
 
