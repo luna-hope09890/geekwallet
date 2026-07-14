@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
@@ -28,12 +29,14 @@ app = Flask(
     template_folder="templates",
     static_folder="static",
 )
-app.secret_key = "expense_tracker_secret"
+#app.secret_key = "expense_tracker_secret"
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "expense_tracker_secret",
+)
 
-# Bro Sai's connection - password="", port=3307
-# Luna's connection - password="Test@1234", port=3306
 #connection = pymysql.connect(
-#    host="localhost", user="root", password="Test@1234", port=3306
+#    host="localhost", user="root", password="", port=
 #)
 
 #cursor = connection.cursor()
@@ -44,16 +47,18 @@ app.secret_key = "expense_tracker_secret"
 #connection.commit()
 #connection.close()
 
-# Luna's SQLAlchemy setup - "mysql+pymysql://root:Test%401234@localhost/geek_db"
-# Bro Sai's SQLAlchemy setup - "mysql+pymysql://root:@localhost:3307/geek_db"
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "mysql+pymysql://root:Test%401234@localhost/geek_db"
-)
+#app.config["SQLALCHEMY_DATABASE_URI"] = (
+#    "mysql+pymysql://root:@localhost/geek_db"
+#)
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # db = SQLAlchemy(app)
 db.init_app(app)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL",
+    "mysql+pymysql://root:Test%401234@localhost/geek_db",
+)
 
 # login required
 def login_required(route_function):
