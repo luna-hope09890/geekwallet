@@ -20,17 +20,17 @@ app.secret_key = "expense_tracker_secret"
 
 # Bro Sai's connection - password="", port=3307
 # Luna's connection - password="Test@1234", port=3306
-connection = pymysql.connect(
-    host="localhost", user="root", password="Test@1234", port=3306
-)
+#connection = pymysql.connect(
+#    host="localhost", user="root", password="Test@1234", port=3306
+#)
 
-cursor = connection.cursor()
-cursor.execute("""
-CREATE DATABASE IF NOT EXISTS geek_db
-""")
+#cursor = connection.cursor()
+#cursor.execute("""
+#CREATE DATABASE IF NOT EXISTS geek_db
+#""")
 
-connection.commit()
-connection.close()
+#connection.commit()
+#connection.close()
 
 # Luna's SQLAlchemy setup - "mysql+pymysql://root:Test%401234@localhost/geek_db"
 # Bro Sai's SQLAlchemy setup - "mysql+pymysql://root:@localhost:3307/geek_db"
