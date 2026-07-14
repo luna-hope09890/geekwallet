@@ -1,0 +1,585 @@
+{% extends "navbar.html" %} {% block content %}
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/dbudget.css') }}"
+/>
+
+<div class="dashboard-wrapper">
+  <div class="dashboard-header">
+    <div>
+      <h1>Budget Planning</h1>
+    </div>
+  </div>
+
+  <div class="budget-grid" id="budgetContainer"></div>
+</div>
+
+<div class="custom-modal" id="budgetModal">
+  <div class="modal-content gw-standard-modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">New Budget</h2>
+      <button type="button" class="close-btn" onclick="closeBudgetModal()">
+        &times;
+      </button>
+    </div>
+
+    <form id="budgetForm" action="/dbudget" method="POST" novalidate>
+      <input type="hidden" id="editBudgetId" name="budget_id" value="" />
+
+      <div class="form-group">
+        <label for="budgetCategory">Choose Category</label>
+        <select id="budgetCategory" name="ctg_id" class="form-control" required>
+          <option value="">Select Category</option>
+          {% for category in budget_categories %}
+          <option value="{{ category.ctg_id }}">{{ category.ctg_name }}</option>
+          {% endfor %}
+        </select>
+        <div class="field-error" id="budgetCategoryError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="budgetNote">Note</label>
+        <input
+          type="text"
+          id="budgetNote"
+          name="budget_note"
+          class="form-control"
+          placeholder=""
+          required
+        />
+        <div class="field-error" id="budgetNoteError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="budgetAmount">Enter Amount</label>
+        <div class="amount-wrapper">
+          <input
+            type="text"
+            id="budgetAmount"
+            name="amount"
+            class="form-control"
+            value=""
+            inputmode="numeric"
+            autocomplete="off"
+          />
+          <span class="currency-addon">MMK</span>
+        </div>
+        <div class="field-error" id="budgetAmountError"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Period Type</label>
+        <input
+          type="text"
+          id="budgetPeriod"
+          name="period"
+          value=""
+          style="position: absolute; opacity: 0; width: 1px; height: 1px"
+        />
+
+        <div class="period-group">
+          <button
+            type="button"
+            class="period-btn"
+            data-period="Day"
+            onclick="setPeriod(this)"
+          >
+            Day
+          </button>
+          <button
+            type="button"
+            class="period-btn"
+            data-period="Week"
+            onclick="setPeriod(this)"
+          >
+            Week
+          </button>
+          <button
+            type="button"
+            class="period-btn"
+            data-period="Month"
+            onclick="setPeriod(this)"
+          >
+            Month
+          </button>
+        </div>
+        <div class="field-error" id="budgetPeriodError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="budgetStartDate">Start Date</label>
+        <input
+          type="date"
+          id="budgetStartDate"
+          name="start_date"
+          class="form-control"
+          onchange="calculateEndDate()"
+        />
+        <div class="field-error" id="budgetStartDateError"></div>
+      </div>
+      <div class="form-group">
+        <label for="budgetEndDate">End Date</label>
+        <input
+          type="date"
+          id="budgetEndDate"
+          name="end_date"
+          class="form-control"
+          required
+          readonly
+        />
+      </div>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-cancel"
+          onclick="closeBudgetModal()"
+        >
+          Cancel
+        </button>
+        <button type="submit" id="submitBtn" class="btn btn-submit">
+          Create
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="custom-modal" id="deleteModal">
+  <div class="modal-content delete-box">
+    <div class="delete-header">
+      <div class="delete-icon">
+        <i class="fa-regular fa-trash-can"></i>
+      </div>
+
+      <h2>Confirm Delete</h2>
+    </div>
+
+    <p>
+      Are you sure you want to delete this budget goal? Deleting it will
+      permanently remove it from your budget plans.
+    </p>
+
+    <div class="delete-buttons">
+      <button type="button" class="cancel-btn" onclick="closeDeleteModal()">
+        Cancel
+      </button>
+
+      <button type="button" class="confirm-btn" id="confirmDeleteBtn">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="backend-budgets-data" style="display: none">
+  {{ budgets | tojson | safe if budgets is defined and budgets else '[]' }}
+</div>
+
+<script type="text/javascript">
+  let budgets = [];
+  let deleteTargetID = null;
+  try {
+    const jsonData = document
+      .getElementById("backend-budgets-data")
+      .textContent.trim();
+    budgets = JSON.parse(jsonData);
+  } catch (e) {
+    budgets = [];
+  }
+
+  // Period function
+  function setPeriod(button) {
+    document
+      .querySelectorAll(".period-btn")
+      .forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById("budgetPeriod").value =
+      button.getAttribute("data-period");
+    document.getElementById("budgetPeriod").setCustomValidity("");
+    calculateEndDate();
+  }
+
+  function calculateEndDate() {
+    const startDateInput = document.getElementById("budgetStartDate").value;
+    const period = document.getElementById("budgetPeriod").value;
+    const endDateInput = document.getElementById("budgetEndDate");
+
+    if (!startDateInput) return;
+
+    let startDate = new Date(startDateInput);
+    let daysToAdd = 0;
+
+    if (period === "Day") {
+      daysToAdd = 0;
+    } else if (period === "Week") {
+      daysToAdd = 6;
+    } else if (period === "Month") {
+      daysToAdd = 29;
+    }
+
+    startDate.setDate(startDate.getDate() + daysToAdd);
+
+    let yyyy = startDate.getFullYear();
+    let mm = String(startDate.getMonth() + 1).padStart(2, "0");
+    let dd = String(startDate.getDate()).padStart(2, "0");
+
+    endDateInput.value = `${yyyy}-${mm}-${dd}`;
+  }
+
+  function openCreateModal() {
+    document.getElementById("modalTitle").innerText = "New Budget";
+    document.getElementById("budgetForm").action = "/dbudget";
+    document.getElementById("budgetForm").reset();
+    clearAllBudgetErrors();
+    document.getElementById("editBudgetId").value = "";
+    document.getElementById("submitBtn").innerText = "Create";
+
+    document.getElementById("budgetCategory").disabled = false;
+    document.getElementById("budgetStartDate").disabled = false;
+    document.getElementById("budgetEndDate").disabled = false;
+
+    document.querySelectorAll(".period-btn").forEach((btn) => {
+      btn.disabled = false;
+      btn.style.cursor = "pointer";
+      btn.style.opacity = "1";
+    });
+
+    document.getElementById("budgetPeriod").value = "";
+
+    document.querySelectorAll(".period-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    document.getElementById("budgetModal").classList.add("show");
+  }
+
+  function closeBudgetModal() {
+    document.getElementById("budgetModal").classList.remove("show");
+    clearAllBudgetErrors();
+  }
+
+  function openDeleteModal(id) {
+    deleteTargetID = id;
+    document.getElementById("deleteModal").classList.add("show");
+  }
+
+  function closeDeleteModal() {
+    document.getElementById("deleteModal").classList.remove("show");
+    deleteTargetID = null;
+  }
+
+  function openBudgetEditModal(id) {
+    //edit ==> wrong data loading error
+    //const budget = budgets.find((b) => b.budget_id == id);
+    const budget = budgets.find(
+      (b) => String(b.budget_id || b.id) === String(id),
+    );
+    if (budget) {
+      clearAllBudgetErrors();
+      document.getElementById("modalTitle").innerText = "Edit Budget";
+      document.getElementById("budgetForm").action = "/dbudget";
+      document.getElementById("editBudgetId").value =
+        budget.budget_id || budget.id; //Luna added this on 6/23/2026 -- ET5 + 6 Integration
+      document.getElementById("budgetNote").value = budget.note || "";
+      document.getElementById("budgetAmount").value = budget.amount;
+      document.getElementById("budgetStartDate").value = budget.startDate;
+      document.getElementById("budgetEndDate").value = budget.endDate;
+      document.getElementById("submitBtn").innerText = "Save";
+
+      document.getElementById("budgetCategory").disabled = true;
+      document.getElementById("budgetStartDate").disabled = true;
+      document.getElementById("budgetEndDate").disabled = true;
+
+      document.querySelectorAll(".period-btn").forEach((btn) => {
+        btn.disabled = true;
+        btn.style.cursor = "not-allowed";
+        btn.style.opacity = "0.6";
+      });
+
+      const categorySelect = document.getElementById("budgetCategory");
+      categorySelect.value = budget.ctg_id;
+
+      document.querySelectorAll(".period-btn").forEach((btn) => {
+        if (btn.getAttribute("data-period") === budget.period) {
+          setPeriod(btn);
+        }
+      });
+      document.getElementById("budgetModal").classList.add("show");
+    }
+  }
+
+  // Page Card Evlove
+  document.addEventListener("DOMContentLoaded", () => {
+    renderBudgets();
+
+    const confirmBtn = document.getElementById("confirmDeleteBtn");
+    if (confirmBtn) {
+      confirmBtn.addEventListener("click", () => {
+        if (deleteTargetID !== null) {
+          fetch(`/dbudget/delete/${deleteTargetID}`, { method: "POST" })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                closeDeleteModal();
+                window.location.reload();
+              } else {
+                alert("Delete Error: " + (data.message || "Failed"));
+              }
+            })
+            .catch((err) => {
+              console.error("Error:", err);
+            });
+        }
+      });
+    }
+  });
+
+  function showBudgetError(inputId, errorId, message) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+
+    if (input) input.classList.add("input-error");
+    if (error) {
+      error.innerText = message;
+      error.classList.add("show");
+    }
+  }
+
+  function clearBudgetError(inputId, errorId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+
+    if (input) input.classList.remove("input-error");
+    if (error) {
+      error.innerText = "";
+      error.classList.remove("show");
+    }
+  }
+
+  function clearAllBudgetErrors() {
+    clearBudgetError("budgetCategory", "budgetCategoryError");
+    clearBudgetError("budgetNote", "budgetNoteError");
+    clearBudgetError("budgetAmount", "budgetAmountError");
+    clearBudgetError("budgetPeriod", "budgetPeriodError");
+    clearBudgetError("budgetStartDate", "budgetStartDateError");
+  }
+
+  document
+    .getElementById("budgetCategory")
+    .addEventListener("change", function () {
+      clearBudgetError("budgetCategory", "budgetCategoryError");
+    });
+
+  document.getElementById("budgetNote").addEventListener("input", function () {
+    clearBudgetError("budgetNote", "budgetNoteError");
+
+    if (this.value.length > 30) {
+      showBudgetError(
+        "budgetNote",
+        "budgetNoteError",
+        "Note can be up to 30 characters only.",
+      );
+    }
+  });
+
+  document
+    .getElementById("budgetAmount")
+    .addEventListener("input", function () {
+      clearBudgetError("budgetAmount", "budgetAmountError");
+    });
+
+  document
+    .getElementById("budgetStartDate")
+    .addEventListener("change", function () {
+      clearBudgetError("budgetStartDate", "budgetStartDateError");
+    });
+
+  document.querySelectorAll(".period-btn").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      clearBudgetError("budgetPeriod", "budgetPeriodError");
+    });
+  });
+
+  document
+    .getElementById("budgetForm")
+    .addEventListener("submit", function (e) {
+      clearAllBudgetErrors();
+
+      const category = document.getElementById("budgetCategory");
+      const note = document.getElementById("budgetNote");
+      const amount = document.getElementById("budgetAmount");
+      const period = document.getElementById("budgetPeriod");
+      const startDate = document.getElementById("budgetStartDate");
+
+      const amountValue = Number(amount.value);
+
+      if (!category.value) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetCategory",
+          "budgetCategoryError",
+          "Please select a category.",
+        );
+        category.focus();
+        return;
+      }
+
+      if (note.value.length > 30) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetNote",
+          "budgetNoteError",
+          "Note can be up to 30 characters only.",
+        );
+        note.focus();
+        return;
+      }
+
+      if (!amount.value.trim()) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetAmount",
+          "budgetAmountError",
+          "Amount is required.",
+        );
+        amount.focus();
+        return;
+      }
+
+      if (isNaN(amountValue)) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetAmount",
+          "budgetAmountError",
+          "Please enter numbers only.",
+        );
+        amount.focus();
+        return;
+      }
+
+      if (amountValue < 1) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetAmount",
+          "budgetAmountError",
+          "Value must be greater than or equal to 1.",
+        );
+        amount.focus();
+        return;
+      }
+
+      if (!period.value) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetPeriod",
+          "budgetPeriodError",
+          "Please select a budget period.",
+        );
+        return;
+      }
+
+      if (!startDate.value) {
+        e.preventDefault();
+        showBudgetError(
+          "budgetStartDate",
+          "budgetStartDateError",
+          "Please select start date.",
+        );
+        startDate.focus();
+        return;
+      }
+    });
+
+  function renderBudgets() {
+    const container = document.getElementById("budgetContainer");
+    if (!container) return;
+    container.innerHTML = "";
+
+    budgets.forEach((budget) => {
+      const leftAmount = budget.amount - budget.spent;
+
+      const isOverspent = leftAmount < 0;
+      const progressPercentage = Math.min(
+        (budget.spent / budget.amount) * 100,
+        100,
+      );
+
+      let statusColorClass = "text-success";
+      let barColorClass = "bg-success";
+      let statusText = "left";
+      let alertBadge = "";
+      let borderClass = "border-normal";
+
+      if (isOverspent) {
+        statusColorClass = "text-error";
+        barColorClass = "bg-error";
+        statusText = "overspent";
+        borderClass = "border-danger";
+      } else if (progressPercentage >= 80) {
+        statusColorClass = "text-warning";
+        barColorClass = "bg-warning";
+        borderClass = "border-warning";
+      }
+
+      const formattedLeft = Math.abs(leftAmount).toLocaleString();
+      const formattedTotal = budget.amount.toLocaleString();
+
+      const cardHTML = `
+                    <div class="budget-card ${borderClass}">
+                        <div>
+                            <div class="card-top">
+                                <h3>${budget.icon || "💰"} ${budget.category}</h3>
+                                <div class="action-menu">
+                                    <button type="button" class="text-muted" onclick="openBudgetEditModal('${budget.budget_id || budget.id}')"><i class="fa-regular fa-pen-to-square"></i></button>
+                                    <button type="button" class="text-danger" onclick="openDeleteModal(${budget.budget_id})"><i class="fa-regular fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                            <p class="card-note">${budget.note || "Budget tracking goal."}</p>
+                        </div>
+                        
+                        <div class="amount-section">
+                            <div class="amount-row">
+                                <h2 class="${statusColorClass}">${formattedLeft} MMK</h2>
+                                <span class="status-label ${statusColorClass}">${statusText}</span>
+                            </div>
+                            <p class="total-budget">From ${formattedTotal} MMK </p>
+                            
+                            <div class="progress-container">
+                                <div class="progress-bar ${barColorClass}" style="width: ${progressPercentage}%;"></div>
+                            </div>
+                            
+                            <div class="card-footer">
+                              <span>${budget.startDate ? budget.startDate.substring(0, 10).split("-").reverse().join(".") : ""}</span>
+                              <span></span>
+                              <span class="fw-600 text-muted">
+                                ${budget.endDate ? budget.endDate.substring(0, 10).split("-").reverse().join(".") : ""}
+                              </span>
+                            </div>
+
+                        </div>
+                    </div>
+                `;
+      container.innerHTML += cardHTML;
+    });
+
+    // Add new budget card
+    const createCardHTML = `
+                <div class="create-card">
+                    <p>Manage your expenses wisely and grow your savings with budgets!</p>
+                    <button type="button" class="btn-create-trigger" onclick="openCreateModal()">Create New Budget</button>
+                </div>
+            `;
+    container.innerHTML += createCardHTML;
+  }
+</script>
+{% endblock %}

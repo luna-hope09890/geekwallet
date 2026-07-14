@@ -1,0 +1,886 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.sidebar-header,
+.menu .text,
+.menu-section-title,
+.record-btn,
+.topbar h2 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar container */
+.sidebar {
+  width: 230px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  background: white;
+  padding: 0;
+  transition: none;
+  border-right: none;
+  overflow: hidden;
+  z-index: 1000;
+
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed + .main {
+  margin-left: 70px;
+}
+
+.sidebar.collapsed + .main .topbar {
+  left: 70px;
+}
+
+/* Hide text */
+.sidebar .text {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidebar .menu-text {
+  white-space: nowrap;
+}
+
+.menu-text {
+  position: relative;
+  left: 22px;
+}
+
+.sidebar.collapsed #menuToggle {
+  margin-right: 0;
+  position: static;
+}
+
+.sidebar.collapsed .text,
+.sidebar.collapsed .menu-text {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .menu-text {
+  display: none;
+}
+
+/* Center icons */
+.sidebar.collapsed .menu li {
+  justify-content: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar.collapsed .menu-link {
+  justify-content: center;
+  gap: 0;
+}
+
+/* Center logout */
+.sidebar.collapsed .logout {
+  justify-content: center;
+}
+
+/* Top black bar */
+.sidebar-header {
+  background: white;
+  color: black;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* toggle left align 30 to 16*/
+
+  padding: 0 32px; /* toggle left align*/
+
+  font-size: 28px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 0;
+}
+
+#menuToggle {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  z-index: 1001;
+  margin-right: 34px;
+}
+
+/* REMOVE BULLETS */
+.menu {
+  list-style: none;
+  padding: 6px 10px;
+  margin: 0;
+}
+
+/* Menu items */
+.menu li,
+.logout {
+  padding: 10px 12px 10px 22px; /* move items 22px to the right */
+  margin-bottom: 2px;
+  border-radius: 6px;
+  cursor: pointer;
+
+  display: flex;
+  text-align: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: black;
+}
+
+.icon {
+  width: 24px;
+  min-width: 24px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* side bar font */
+.text {
+  font-size: 20px;
+}
+
+/* Hover effect */
+.menu li:hover {
+  background: #e8e8e8;
+}
+
+.menu li.active {
+  background: #e8f1ff;
+}
+
+/* Logout */
+.logout {
+  padding: 15px;
+  margin-top: 8px;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  margin-left: 230px;
+  padding-top: 70px;
+  transition: none;
+}
+
+/* TOPBAR */
+.topbar {
+  height: 70px;
+  background: white;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 0 30px;
+  position: fixed;
+  top: 0;
+  left: 230px;
+  right: 0;
+  z-index: 900;
+  transition: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.topbar input {
+  width: 400px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid #999;
+}
+
+.record-btn {
+  background: #123f8c;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 14px;
+  cursor: pointer;
+  margin-left: auto;
+
+  font-size: 15px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile img {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* MODAL BACKGROUND */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.add-record-modal {
+  width: 370px;
+  padding: 18px 36px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 26px;
+  cursor: pointer;
+  color: gray;
+}
+
+.close-modal:hover {
+  color: red;
+}
+
+.add-record-modal h2 {
+  text-align: center;
+  color: #123f8c;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.add-record-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.type-toggle {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 24px;
+  margin-bottom: 22px;
+}
+
+.type-toggle button {
+  width: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.active-btn {
+  background: #123f8c;
+  color: white;
+}
+
+.inactive-btn {
+  background: white;
+  color: black;
+}
+
+.add-record-modal label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 2px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.add-record-modal input,
+.add-record-modal select {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.amount-wrapper {
+  position: relative;
+}
+
+.amount-wrapper input {
+  padding-right: 55px;
+}
+
+.currency {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.expense-bg,
+.income-bg {
+  background: white;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  min-height: 22px;
+}
+
+.switch-row span {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #e7edf6; /* off color*/
+  border-radius: 999px;
+  transition: 0.25s;
+}
+
+.slider::before {
+  content: "";
+
+  position: absolute;
+  width: 18px;
+  height: 18px;
+
+  left: 3px;
+  top: 3px;
+
+  background: white;
+  border-radius: 50%;
+
+  transition: 0.25s;
+}
+
+/* ON */
+.switch input:checked + .slider {
+  background: #214a97;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+.recurring-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.recurring-left {
+  flex: 1;
+  min-height: 125px;
+}
+
+.cycle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 4px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.arrow {
+  font-size: 18px;
+}
+
+.recurring-box {
+  width: 155px;
+  border: 1px solid #777;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 10px;
+  margin-top: -5px; /* move upward */
+  margin-left: 18px; /* move right */
+}
+
+.frequency-buttons {
+  display: flex;
+  gap: 4px;
+  margin: 5px 0 8px;
+}
+
+.frequency-buttons button {
+  border: 1px solid gray;
+  background: white;
+  padding: 2px 5px;
+  border-radius: 999px;
+  font-size: 8px;
+  cursor: pointer;
+}
+
+.selected-frequency {
+  background: #123f8c !important;
+  color: white;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.modal-buttons button {
+  width: 140px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.modal-buttons button[type="button"] {
+  background: white;
+  border: 1px solid #777;
+}
+
+.modal-buttons button[type="submit"] {
+  background: #123f8c;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+/* LOGOUT */
+.logout-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10000;
+}
+
+.logout-box {
+  background: white;
+  width: 420px;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.logout-box h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.logout-box p {
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.logout-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.logout-cancel,
+.logout-confirm {
+  width: 130px;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-cancel {
+  background: white;
+  border: 1px solid #777;
+}
+
+.logout-confirm {
+  background: #ff3333;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.logout-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0;
+}
+
+/* Logout pop pp : warning.png*/
+.logout-warning-icon {
+  width: 48px; /* warning.png size*/
+  height: 48px; /* warning.png size*/
+  object-fit: contain;
+  flex-shrink: 0;
+
+  /* if we want to be the same as wireframe, remove these 2 lines*/
+  position: relative; /* warning.png position */
+  top: 0; /* warning.png position */
+}
+
+.profile-menu {
+  display: none;
+  position: fixed;
+  top: 75px;
+  right: 20px;
+
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+
+  text-align: center;
+  z-index: 10001;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.profile-big {
+  font-size: 55px;
+}
+
+.manage-btn {
+  display: block;
+  border: 1px solid #555;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 15px 0;
+  color: #163f8c;
+}
+
+.profile-logout {
+  color: red;
+  cursor: pointer;
+}
+
+/* ___________________________________________ */
+/* Chrome, Edge, Safari */
+#amountBox::-webkit-outer-spin-button,
+#amountBox::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.menu-divider {
+  border: none;
+  border-top: 1px solid #999;
+  margin: 10px 0;
+}
+
+.sidebar.collapsed .menu-divider {
+  margin: 10px auto;
+  width: 36px;
+  visibility: hidden;
+}
+
+/* General Title */
+.menu-section-title {
+  font-size: 28px;
+  font-weight: bold;
+  padding: 6px 12px 10px 12px;
+  color: black;
+}
+
+.sidebar.collapsed .menu-section-title {
+  visibility: hidden;
+}
+
+#categorySelect,
+#noteBox,
+#amountBox,
+#recurringEndDate {
+  margin-bottom: 0;
+}
+
+.field-error {
+  height: 10px;
+  line-height: 10px;
+  font-size: 10px;
+  color: red;
+  font-weight: bold;
+  margin: 2px; /*2px above the error*/
+  visibility: hidden;
+}
+
+.field-error.show {
+  visibility: visible;
+}
+
+/* make the same logo and GeekWallet Text from internal as public topbar */
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: black;
+  text-decoration: none;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.app-logo i {
+  color: #008fdc;
+  font-size: 20px;
+}
+
+/* =========================================
+   GEEKWALLET SHARED MODAL STANDARD
+   1-July : ET16 modal standard system
+========================================= */
+
+.gw-standard-modal {
+  width: 380px !important;
+  height: 660px !important;
+  padding: 18px 36px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden; /*no scroll bar*/
+}
+
+.gw-standard-modal form {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 28px;
+  box-sizing: border-box;
+}
+
+/* Shared bottom buttons of input forms (position) */
+.gw-standard-modal .modal-buttons,
+.gw-standard-modal .btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin-top: 8px; /* auto : allow to push down*/
+  margin-bottom: 20px;
+  padding-top: 0px;
+}
+
+/* Shared bottom buttons of input forms (size) */
+.gw-standard-modal .modal-buttons button,
+.gw-standard-modal .btn-group .btn {
+  width: 150px;
+  height: 36px;
+  padding: 0;
+  border-radius: 7px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   GEEKWALLET SHARED FORM STANDARD
+   1-July : ET16 input form standard system
+========================================= */
+
+/* Modal title */
+.gw-standard-modal h2,
+.gw-standard-modal .modal-header h2 {
+  text-align: center;
+  color: #123f8c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px; /*Add Record title font size*/
+  font-weight: bold;
+  margin: 0 0 14px 0;
+}
+
+/* Labels */
+.gw-standard-modal label,
+.gw-standard-modal .form-group label,
+.gw-standard-modal .switch-row span,
+.gw-standard-modal .toggle-row span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px; /*font size for income, expense and other lables*/
+  font-weight: bold;
+  color: #0f0f0f;
+  margin-bottom: 4px;
+}
+
+/* Input/select boxes */
+.gw-standard-modal input:not([type="checkbox"]),
+.gw-standard-modal select,
+.gw-standard-modal .form-control {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #777;
+  border-radius: 7px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+/* Form row spacing */
+.gw-standard-modal .form-group {
+  margin-bottom: 10px;
+}
+
+/* Toggle rows */
+.gw-standard-modal .switch-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+  margin-bottom: 8px;
+}
+
+/* toggle Switch: 30 × 20 */
+.gw-standard-modal .switch {
+  width: 30px;
+  height: 20px;
+}
+
+/* white circle inside toggle*/
+.gw-standard-modal .slider::before {
+  width: 10px; /*Circle: 10 × 10*/
+  height: 10px;
+  left: 2px;
+  top: 3px; /*centered vertically*/
+}
+
+.gw-standard-modal .switch input:checked + .slider::before {
+  /*Travel = 16px
+    OFF: left = 2px
+    ON: left = 18px (2 + 16)
+    Right margin = 30 - (18 + 10) = 2px
+    */
+  transform: translateX(15px);
+}
+
+.gw-standard-modal .recurring-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 160px;
+}
+
+/* Recurring popup box */
+.gw-standard-modal .recurring-box {
+  width: 170px;
+  min-height: 90px;
+  padding: 10px;
+  font-size: 11px;
+  box-sizing: border-box;
+  margin-left: 0;
+  flex-shrink: 0;
+}
+
+/* Recurring popup label - End Date label spacing inside recurring popup */
+.gw-standard-modal .recurring-box label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Recurring frequency buttons */
+.gw-standard-modal .frequency-buttons button {
+  width: 46px;
+  height: 22px;
+  padding: 0;
+  font-size: 9px;
+  text-align: center;
+}
+
+/* End date inside recurring box */
+.gw-standard-modal #recurringEndDate,
+.gw-standard-modal #editRecurringEndDate {
+  height: 22px;
+}
+
+/* Income - Expense*/
+.gw-standard-modal .type-toggle {
+  height: 28px;
+  margin-bottom: 22px;
+}
+
+.gw-standard-modal .type-toggle button {
+  font-size: 14px;
+}
+
+/* STANDARD POPUP FONT */
+.profile-menu,
+.profile-menu h3,
+.profile-menu p,
+.profile-menu a,
+.profile-logout,
+.logout-box,
+.logout-box h2,
+.logout-box p,
+.logout-box button {
+  font-family: Georgia, "Times New Roman", serif;
+}

@@ -1,0 +1,166 @@
+{% extends "navbar.html" %} {% block content %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/common_pages.css') }}"
+/>
+
+<div class="support-page">
+  <h1>Support</h1>
+
+  <div class="faq-container">
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How do I record a new transaction?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Click the “+ Record Transaction” button from the dashboard or
+          navigation bar. Then enter the transaction details such as amount,
+          category, date, and notes before clicking “Save.”
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How do I create a budget?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Navigate to the Budget Management page and click “Create New Budget.”
+          Select a category, enter the budget amount, choose the budget period,
+          and save the budget plan.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How do recurring transactions work?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          When recurring mode is enabled during transaction creation, the system
+          automatically repeats the transaction based on the selected payment
+          cycle such as daily, weekly, monthly, or yearly.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Can I edit or delete existing transactions?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Yes. Users can open the Records page to view transaction history, edit
+          transaction details, or permanently delete transactions when
+          necessary.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Why is my dashboard showing no data?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          The dashboard will remain empty until transactions, budgets, or saving
+          goals are added. New users should begin by recording their first
+          transaction.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>How do I change my password?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Go to the Settings page and select “Change Password.” Enter the
+          current password, create a new password, confirm it, and click “Save.”
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Can I customize transaction categories?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Yes. Users can create, edit, and delete income or expense categories
+          from the Categories Management page.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>Why can’t I delete a category?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          Categories connected to existing transactions cannot be deleted
+          directly because transaction history depends on those categories.
+          Users may need to move transactions to another category first.
+        </p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">
+        <h3>What happens if I exceed my budget?</h3>
+        <span class="faq-icon">+</span>
+      </div>
+
+      <div class="faq-answer">
+        <p>
+          When total expenses exceed the budget limit, the system will display a
+          budget exceeded warning message. This helps users recognize
+          overspending early and manage expenses more carefully.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const faqItems = document.querySelectorAll(".faq-item");
+
+  faqItems.forEach((item) => {
+    const question = item.querySelector(".faq-question");
+    const icon = item.querySelector(".faq-icon");
+
+    question.addEventListener("click", () => {
+      item.classList.toggle("active");
+
+      if (item.classList.contains("active")) {
+        icon.textContent = "−";
+      } else {
+        icon.textContent = "+";
+      }
+    });
+  });
+</script>
+
+{% endblock %}

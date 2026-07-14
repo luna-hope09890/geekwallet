@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>GeekWallet</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/wallet.png') }}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/public_nav.css') }}"
+    />
+
+    <style>
+      body {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 min-h-screen">
+    <!-- NAVBAR -->
+    <nav class="public-topbar public-topbar-center">
+      <a href="/" class="public-logo">
+        <i class="fa-solid fa-wallet"></i>
+        GeekWallet
+      </a>
+    </nav>
+
+    <!-- CONTAINER -->
+    <div class="flex justify-center px-6 py-16">
+      <!-- CARD -->
+      <div
+        class="bg-white p-10 rounded-2xl shadow-lg border border-gray-200 w-full max-w-md"
+      >
+        <h1 class="text-3xl font-bold text-center mb-3">Create New Password</h1>
+
+        <div id="resetStatusArea" class="text-center mb-4 relative">
+          <p id="resetDefaultSubtitle" class="text-gray-500 leading-8">
+            Please create a strong password to secure your account.
+          </p>
+
+          {% if message %}
+          <div id="resetMessage" class="message-card {{ message.type }}">
+            <strong>{{ message.title }}</strong>
+            {% if message.detail %}
+            <div>{{ message.detail }}</div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        {% if redirect %}
+        <script>
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 2000);
+        </script>
+        {% endif %}
+
+        <!-- FORM -->
+        <form method="POST">
+          <input type="hidden" name="email" value="{{ email }}" />
+
+          <!-- PASSWORD -->
+          <div class="mb-4 relative">
+            <label class="block mb-2"> New Password </label>
+
+            <div class="relative">
+              <input
+                type="password"
+                name="password"
+                id="new_password"
+                value="{{ password if password else '' }}"
+                {%
+                if
+                redirect
+                %}disabled{%
+                endif
+                %}
+                class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 {% if redirect %}bg-gray-100 cursor-not-allowed{% endif %}"
+                placeholder="Enter new password"
+              />
+
+              <span
+                {%
+                if
+                not
+                redirect
+                %}onclick="toggleInput('new_password')"
+                {%
+                endif
+                %}
+                class="absolute right-3 top-2 {% if redirect %}text-gray-300 cursor-not-allowed{% else %}cursor-pointer text-gray-500{% endif %}"
+              >
+                👁
+              </span>
+            </div>
+
+            <div id="resetPasswordError" class="form-error"></div>
+          </div>
+
+          <!-- CONFIRM -->
+          <div class="mb-6 relative">
+            <label class="block mb-2"> Confirm Password </label>
+
+            <div class="relative">
+              <input
+                type="password"
+                name="confirm"
+                id="confirm_password"
+                value="{{ confirm if confirm else '' }}"
+                {%
+                if
+                redirect
+                %}disabled{%
+                endif
+                %}
+                class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 {% if redirect %}bg-gray-100 cursor-not-allowed{% endif %}"
+                placeholder="Confirm password"
+              />
+
+              <span
+                {%
+                if
+                not
+                redirect
+                %}onclick="toggleInput('confirm_password')"
+                {%
+                endif
+                %}
+                class="absolute right-3 top-2 {% if redirect %}text-gray-300 cursor-not-allowed{% else %}cursor-pointer text-gray-500{% endif %}"
+              >
+                👁
+              </span>
+            </div>
+
+            <div id="resetConfirmError" class="form-error"></div>
+          </div>
+
+          <!-- BUTTON -->
+          <button
+            type="submit"
+            {%
+            if
+            redirect
+            %}disabled{%
+            endif
+            %}
+            class="w-full bg-[#10367d] text-white py-2 rounded hover:bg-[#0c2c66] {% if redirect %}opacity-70 cursor-not-allowed{% endif %}"
+          >
+            Submit
+          </button>
+        </form>
+
+        <!-- BACK -->
+        <p class="mt-5 text-center text-sm">
+          <a href="/login" class="text-blue-500 hover:text-blue-700">
+            Back to Login
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- SHOW PASSWORD -->
+    <script>
+      function toggleInput(id) {
+        const input = document.getElementById(id);
+
+        input.type = input.type === "password" ? "text" : "password";
+      }
+    </script>
+
+    <!-- Validation -->
+    <script>
+      document.querySelector("form").addEventListener("submit", function (e) {
+        const password = document.getElementById("new_password");
+        const confirm = document.getElementById("confirm_password");
+
+        clearResetErrors();
+
+        if (password.value === "") {
+          e.preventDefault();
+          showResetPasswordError("Password field is required.");
+          return;
+        }
+
+        if (password.value.length < 8) {
+          e.preventDefault();
+          showResetPasswordError("Password must be at least 8 characters.");
+          return;
+        }
+
+        const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
+
+        if (!strongPattern.test(password.value)) {
+          e.preventDefault();
+          showResetPasswordError(
+            "Password must contain at least 1 uppercase, lowercase and number.",
+          );
+          return;
+        }
+
+        if (confirm.value === "") {
+          e.preventDefault();
+          showResetConfirmError("Please confirm your password.");
+          return;
+        }
+
+        if (password.value !== confirm.value) {
+          e.preventDefault();
+          showResetConfirmError("Passwords do not match.");
+          return;
+        }
+      });
+
+      function showResetPasswordError(message) {
+        const input = document.getElementById("new_password");
+        const error = document.getElementById("resetPasswordError");
+
+        input.classList.add("input-error");
+        error.innerText = message;
+        error.classList.add("show");
+      }
+
+      function showResetConfirmError(message) {
+        const input = document.getElementById("confirm_password");
+        const error = document.getElementById("resetConfirmError");
+
+        input.classList.add("input-error");
+        error.innerText = message;
+        error.classList.add("show");
+      }
+
+      function clearResetErrors() {
+        document.getElementById("new_password").classList.remove("input-error");
+        document
+          .getElementById("confirm_password")
+          .classList.remove("input-error");
+
+        document.getElementById("resetPasswordError").innerText = "";
+        document.getElementById("resetConfirmError").innerText = "";
+
+        document.getElementById("resetPasswordError").classList.remove("show");
+        document.getElementById("resetConfirmError").classList.remove("show");
+      }
+
+      document
+        .getElementById("new_password")
+        .addEventListener("focus", function () {
+          clearResetErrors();
+
+          const message = document.getElementById("resetMessage");
+          const subtitle = document.getElementById("resetDefaultSubtitle");
+
+          if (message) {
+            message.style.display = "none";
+          }
+
+          if (subtitle) {
+            subtitle.style.display = "block";
+          }
+        });
+
+      document
+        .getElementById("confirm_password")
+        .addEventListener("focus", function () {
+          clearResetErrors();
+
+          const message = document.getElementById("resetMessage");
+          const subtitle = document.getElementById("resetDefaultSubtitle");
+
+          if (message) {
+            message.style.display = "none";
+          }
+
+          if (subtitle) {
+            subtitle.style.display = "block";
+          }
+        });
+    </script>
+
+    <!-- standard message -->
+    <script>
+      window.addEventListener("load", function () {
+        const message = document.getElementById("resetMessage");
+        const subtitle = document.getElementById("resetDefaultSubtitle");
+
+        if (!message) return;
+
+        subtitle.style.display = "none";
+      });
+    </script>
+  </body>
+</html>

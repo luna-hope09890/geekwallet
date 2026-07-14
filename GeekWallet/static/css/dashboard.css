@@ -1,0 +1,574 @@
+/* DASHBOARD CONTENT */
+.dashboard-content {
+  padding: 50px 100px;
+  background: #f3f3f3;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* DASHBOARD TITLE */
+.dashboard-header {
+  display: flex;
+  flex-direction: column;
+  gap: 17px; /* title → date gap 28px */
+  margin-bottom: 28px;
+}
+
+.dashboard-header,
+.dashboard-grid {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboard-header h1 {
+  font-size: 32px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+  margin: 0;
+}
+
+/* GRID LAYOUT */
+.dashboard-grid {
+  display: flex;
+  gap: 20px;
+}
+
+/* LEFT DASHBOARD */
+.left-dashboard {
+  flex: 1;
+}
+
+/* SUMMARY CARDS */
+.summary-cards {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 14px;
+  min-height: 100px;
+}
+
+.summary-card h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.summary-card p {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.summary-income {
+  color: #00b83d;
+}
+
+.summary-expense {
+  color: #ff3333;
+}
+
+.summary-balance {
+  color: black;
+}
+
+.income-card {
+  background: #dff5df;
+}
+
+.expense-card {
+  background: #ffe1e1;
+}
+
+.balance-card {
+  background: #f4dff1;
+}
+
+/* TRANSACTION CARD */
+.transaction-card {
+  background: #dbe6ff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /*height: fit-content;*/
+  min-height: 276px;
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid black;
+}
+
+.transaction-header h2 {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.transaction-header span {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.transaction-card table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.transaction-card th:nth-child(1),
+.transaction-card td:nth-child(1) {
+  width: 16%;
+}
+
+.transaction-card th:nth-child(2),
+.transaction-card td:nth-child(2) {
+  width: 26%;
+}
+
+.transaction-card th:nth-child(3),
+.transaction-card td:nth-child(3) {
+  width: 32%;
+}
+
+.transaction-card th:nth-child(4),
+.transaction-card td:nth-child(4) {
+  width: 26%;
+}
+
+.transaction-card td:nth-child(1),
+.transaction-card td:nth-child(2),
+.transaction-card td:nth-child(3) {
+  text-align: center;
+}
+
+.transaction-card td:nth-child(4) {
+  text-align: right;
+  padding-right: 18px;
+}
+
+.transaction-card th,
+.transaction-card td {
+  padding: 8px 6px;
+  font-size: 14px;
+}
+
+/* Only table header: Date / Category / Note / Amount */
+.transaction-card th {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.transaction-card td.expense {
+  color: red;
+  font-weight: 600;
+}
+
+.transaction-card td.income {
+  color: #00b83d;
+  font-weight: 600;
+}
+
+.see-more {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: normal;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.see-more:hover {
+  text-decoration: underline;
+}
+
+/* RIGHT GOAL SECTION */
+.goal-section {
+  width: 280px; /* 320 */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* GOAL CARDS */
+.goal-card {
+  background: #cfe0ff;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.goal-card.border-success {
+  border: 2px solid #40f558 !important;
+}
+
+.goal-card.border-warning {
+  border: 2px solid #ff9933 !important;
+  box-shadow: 0 4px 20px #ff9933 !important;
+}
+
+.goal-card.border-danger {
+  border: 2px solid #ef4444 !important;
+  box-shadow: 0 4px 20px #ef4444 !important;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goal-header h2 {
+  font-weight: bold;
+  font-size: 22px;
+  font-family: Georgia, "Times New Roman", serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-header h2 i {
+  font-size: 22px;
+}
+
+.goal-header a {
+  color: black;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: normal;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.goal-header a:hover {
+  text-decoration: underline;
+}
+
+.goal-desc {
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.goal-amount {
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+  margin: 8px 0 0 0;
+}
+
+.goal-amount.green {
+  color: #00b83d;
+}
+
+.goal-amount.orange {
+  color: orange;
+}
+
+.goal-amount.red {
+  color: red;
+}
+
+.goal-amount span {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.goal-total {
+  margin-top: 2px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: #ececec;
+  border-radius: 0px;
+  overflow: hidden;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+}
+
+.green-fill {
+  background: #79d65c;
+}
+
+.orange-fill {
+  background: orange;
+}
+
+.red-fill {
+  background: red;
+}
+
+.goal-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #444;
+}
+
+.goal-date span:first-child {
+  text-align: left;
+}
+
+.goal-date span:last-child {
+  text-align: right;
+}
+
+.goal-date span {
+  display: inline;
+}
+
+/* date */
+.date-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.date-bar span {
+  background: #9fc2ff;
+  padding: 3px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: normal;
+  min-width: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.date-bar span i {
+  color: #4f6fa8;
+}
+
+.date-bar button {
+  border: none;
+  background: #9fc2ff;
+  padding: 0px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 28px;
+}
+
+.date-text {
+  background: #9fc2ff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  /*Jul 01, 2026 - Jul 31, 2026*/
+  position: relative;
+  width: 255px; /* width for Jul 01,2026 - Jul 31,2026*/
+  height: 28px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.date-bar .month-display {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  min-width: 0;
+  flex: 1;
+
+  display: block;
+  font-size: 14px; /* font size for Jul 01,2026 - Jul 31,2026*/
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.date-text input {
+  border: none;
+  outline: none;
+}
+
+/* TABLE */
+table th,
+table td {
+  text-align: center;
+}
+
+table th:last-child,
+table td:last-child {
+  text-align: right;
+  padding-right: 30px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 16px;
+  }
+
+  .dashboard-grid {
+    flex-direction: column;
+  }
+
+  .summary-cards {
+    flex-direction: column;
+  }
+}
+
+.calendar-icon {
+  font-size: 13px;
+  color: #222;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.date-text input[type="month"] {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+
+  width: 22px;
+  height: 20px;
+
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* Logout modal */
+.logout-modal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10000;
+}
+
+.logout-box {
+  background: white;
+  width: 420px;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.logout-box h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.logout-box p {
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.logout-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.logout-cancel,
+.logout-confirm {
+  width: 130px;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-cancel {
+  background: white;
+  border: 1px solid #777;
+}
+
+.logout-confirm {
+  background: #ff3333;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+
+.profile-menu {
+  display: none;
+  position: fixed;
+  top: 75px;
+  right: 20px;
+
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+
+  text-align: center;
+  z-index: 10001;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+.profile-big {
+  font-size: 55px;
+}
+
+.profile-menu h3 {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.manage-btn {
+  display: block;
+  border: 1px solid #555;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 15px 0;
+  color: #163f8c;
+}
+
+.profile-logout {
+  color: red;
+  cursor: pointer;
+}
+
+.budget-note {
+  font-size: 13px;
+  color: #444;
+  margin: 8px 0 12px 0;
+  line-height: 1.35;
+}
+
+/* Keep Dashboard aligned when the sidebar is folded */
+.sidebar.collapsed + .main .dashboard-header,
+.sidebar.collapsed + .main .dashboard-grid {
+  margin-left: 0;
+  margin-right: 0;
+}

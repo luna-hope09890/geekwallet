@@ -1,0 +1,189 @@
+.container-report {
+  width: 1080px;
+  margin: 0 0 8px 100px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px 14px;
+  overflow: visible;
+}
+
+body {
+  background-color: #f3f3f3;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* title and calendar */
+.reports-top-row {
+  width: 1080px;
+  margin: 50px 0 22px 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reports-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: bold;
+  color: #2b2b2b;
+  margin: 0;
+  text-align: left;
+}
+
+.card {
+  padding: 12px 18px 16px 18px;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  border-bottom: 1.5px solid #a8a8a8; /*underline*/
+  padding-bottom: 4px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Chart Canvas Sizing Wrapper */
+.chart-wrapper {
+  height: 250px;
+  width: 100%;
+  position: relative;
+}
+
+/* category summary chart - bottom */
+.card-purple {
+  background-color: #cce0ff;
+  width: 100%;
+}
+
+/* income sources donut card - top */
+.card-yellow {
+  background-color: #dcfce7;
+  width: 100%;
+}
+
+/* income vs expense line chart - top */
+.card-blue {
+  background-color: #f3e8ff;
+  width: 100%;
+}
+
+/* spending categories donut card - bottom */
+.card-red {
+  background-color: #fce7f3;
+  width: 100%;
+}
+
+/* especially for mobile */
+.chart-container {
+  position: relative;
+  height: 185px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* date */
+.date-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.date-bar span {
+  background: #9fc2ff;
+  padding: 3px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: normal;
+  min-width: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.date-bar span i {
+  color: #4f6fa8;
+}
+
+/*previous and next button*/
+.date-bar button {
+  border: none;
+  background: #9fc2ff;
+  padding: 0px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 28px;
+}
+
+.date-text {
+  background: #9fc2ff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  position: relative;
+  width: 255px;
+  height: 28px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.date-bar .month-display {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  min-width: 0;
+  flex: 1;
+
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.date-text input {
+  border: none;
+  outline: none;
+}
+
+.calendar-icon {
+  font-size: 13px;
+  color: #222;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.date-text input[type="month"] {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+
+  width: 22px;
+  height: 20px;
+
+  opacity: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+/* donut chart height*/
+.card-yellow .chart-container,
+.card-red .chart-container {
+  height: 170px;
+  width: 100%;
+}

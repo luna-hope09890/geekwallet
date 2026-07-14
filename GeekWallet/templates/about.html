@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GeekWallet</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='images/wallet.png') }}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/public_nav.css') }}"
+    />
+    <style>
+      body {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+      p {
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50">
+    <!-- 🔝 Navbar -->
+    <nav class="public-topbar public-topbar-left">
+      <a href="/" class="public-logo">
+        <i class="fa-solid fa-wallet"></i>
+        GeekWallet
+      </a>
+
+      <div class="public-links">
+        <a href="/about" class="active">About Us</a>
+        <a href="/support">Support</a>
+        <span class="public-divider">|</span>
+        <a href="/login">Login</a>
+      </div>
+    </nav>
+
+    <!--  About Section -->
+    <section class="text-center py-16 px-6 bg-white">
+      <!-- About Card -->
+      <div class="max-w-6xl mx-auto bg-gray-50 rounded-3xl shadow-md p-10">
+        <!-- Title -->
+        <h1 class="text-5xl font-bold text-[#10367d] mb-4">Meet Team Geeks</h1>
+
+        <!-- Subtitle -->
+        <p class="text-lg text-[#10367d] mb-12">
+          Eleven students, one dream, and one journey built through teamwork,
+          learning, and friendship.
+        </p>
+        <div class="space-y-10 text-left text-gray-700 leading-9 text-lg">
+          <p class="text-gray-700 leading-9 text-lg text-left">
+            We are a team of eleven students from the Diploma of Computer
+            Science (Batch 2) at
+            <a
+              href="https://sumlearn.springuniversitymm.com/"
+              target="_blank"
+              class="text-blue-600 underline"
+            >
+              Spring University Myanmar </a
+            >. This system was developed as our final project through
+            collaboration, learning, creativity, and strong team spirit.
+            Throughout this journey, we supported one another, shared ideas,
+            solved challenges together, and turned our vision into reality.
+          </p>
+          <p class="text-gray-700 leading-9 text-lg text-left">
+            Our goal is to create a simple and accessible financial management
+            system that helps users build healthier spending, budgeting, and
+            saving habits in their daily lives. Building this project was not
+            easy, but our friendship, dedication, and teamwork helped us move
+            forward together as one team with one dream. This project reflects
+            not only our technical learning journey but also the trust,
+            communication, and collaboration we developed throughout the
+            process. We carefully designed this system with a strong focus on
+            usability, simplicity, and user-friendly experience so that users
+            can manage their personal finances more easily and confidently.
+          </p>
+          <p class="text-gray-700 leading-9 text-lg text-left">
+            As students, this project gave us valuable real-world experience in
+            system design, problem-solving, teamwork, and software development.
+            It allowed us to grow together while applying the knowledge and
+            skills we learned during our studies. We hope this project can
+            encourage better financial habits and become a helpful expense
+            tracking solution for the Myanmar community in the future.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 👥 Team Section -->
+    <section class="py-20 bg-gray-100">
+      <!-- Title -->
+      <div class="text-center mb-14">
+        <h2 class="text-4xl font-bold text-[#10367d]">
+          Eleven Hearts, One Dream
+        </h2>
+      </div>
+
+      <!-- Team Grid -->
+      <div class="max-w-7xl mx-auto px-6">
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8"
+        >
+          <!-- Member 1 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 w-full max-w-[230px] lg:col-span-5 lg:justify-self-center"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-203</h3>
+            <p class="text-sm text-gray-500">
+              Team Leader <br />
+              UI/UX Designer
+            </p>
+          </div>
+
+          <!-- Member 2 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-209</h3>
+            <p class="text-sm text-gray-500">Software Engineer</p>
+          </div>
+
+          <!-- Member 3 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-235</h3>
+            <p class="text-sm text-gray-500">Quality Assurance Tester</p>
+          </div>
+
+          <!-- Member 4 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-214</h3>
+            <p class="text-sm text-gray-500">Database Developer</p>
+          </div>
+
+          <!-- Member 5  -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-226</h3>
+            <p class="text-sm text-gray-500">Database Developer</p>
+          </div>
+
+          <!-- Member 6 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-230</h3>
+            <p class="text-sm text-gray-500">Database Developer</p>
+          </div>
+
+          <!-- Member 7 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-222</h3>
+            <p class="text-sm text-gray-500">Full Stack Developer</p>
+          </div>
+
+          <!-- Member 8 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-244</h3>
+            <p class="text-sm text-gray-500">Full Stack Developer</p>
+          </div>
+
+          <!-- Member 9 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-250</h3>
+            <p class="text-sm text-gray-500">Full Stack Developer</p>
+          </div>
+
+          <!-- Member 10 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-255</h3>
+            <p class="text-sm text-gray-500">Full Stack Developer</p>
+          </div>
+
+          <!-- Member 11 -->
+          <!-- Member 11 -->
+          <div
+            class="bg-white rounded-3xl shadow-md p-5 text-center hover:shadow-2xl hover:-translate-y-2 transition duration-300 lg:col-start-5"
+          >
+            <img
+              src="https://tse2.mm.bing.net/th/id/OIP.b6VlpgMQli2g9CJ9WOpTNgAAAA?pid=Api&P=0&h=180"
+              class="w-28 h-28 object-cover rounded-full mx-auto border-4 border-gray-200"
+            />
+            <h3 class="mt-4 text-lg font-semibold text-gray-800">DCS-257</h3>
+            <p class="text-sm text-gray-500">Full Stack Developer</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
